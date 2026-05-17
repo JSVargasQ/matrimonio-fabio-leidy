@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Leidy & Fabio · 2 Noviembre 2026</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- FAIRY DUST CANVAS (global overlay) -->
+  <canvas id="fairy-canvas" aria-hidden="true"></canvas>
+
+  <!-- ===================== -->
+  <!-- FASE 2: Guest Section -->
+  <!-- ===================== -->
+  <div id="guest-section" hidden aria-live="polite">
+    <div class="guest-banner">
+      <span class="sparkle-icon">✨</span>
+      <p>Estimado/a <strong id="guest-name"></strong>, tienes <strong id="guest-seats"></strong> cupo(s) reservado(s).</p>
+      <span class="sparkle-icon">✨</span>
+    </div>
+  </div>
+
+  <!-- =================== -->
+  <!-- 1. HERO             -->
+  <!-- =================== -->
+  <section id="hero" class="section section--hero">
+    <div class="hero__bg" aria-hidden="true">
+      <img
+        src="img/WhatsApp Image 2026-05-16 at 22.58.03.jpeg"
+        alt="Leidy y Fabio"
+        class="hero__img"
+        fetchpriority="high"
+      />
+      <div class="hero__overlay"></div>
+    </div>
+
+    <!-- Luciérnagas -->
+    <div class="fireflies" aria-hidden="true" id="fireflies"></div>
+
+    <div class="hero__content">
+      <div class="hero__ornament" aria-hidden="true">
+        <svg viewBox="0 0 120 40" class="vine-top">
+          <path d="M10,20 Q30,5 60,20 Q90,35 110,20" stroke="#E8A838" stroke-width="1.5" fill="none" opacity="0.7"/>
+          <circle cx="10" cy="20" r="3" fill="#E84C7D" opacity="0.8"/>
+          <circle cx="60" cy="20" r="3" fill="#E8A838" opacity="0.8"/>
+          <circle cx="110" cy="20" r="3" fill="#E84C7D" opacity="0.8"/>
+        </svg>
+      </div>
+
+      <p class="hero__eyebrow">¡Están invitados a nuestra boda!</p>
+      <h1 class="hero__names">Leidy <span class="ampersand">&amp;</span> Fabio</h1>
+
+      <div class="hero__divider" aria-hidden="true">
+        <svg viewBox="0 0 200 20" class="divider-svg">
+          <path d="M0,10 Q50,0 100,10 Q150,20 200,10" stroke="#E8A838" stroke-width="1" fill="none"/>
+          <path d="M40,10 L160,10" stroke="#E8A838" stroke-width="0.5" fill="none" stroke-dasharray="3,3"/>
+        </svg>
+      </div>
+
+      <p class="hero__date">2 · Noviembre · 2026</p>
+      <p class="hero__time">11:00 AM</p>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <span class="scroll-hint__dot"></span>
+      <span class="scroll-hint__text">Desliza</span>
+    </div>
+  </section>
+
+  <!-- =================== -->
+  <!-- 2. VERSÍCULO        -->
+  <!-- =================== -->
+  <section id="quote" class="section section--quote">
+    <div class="quote__flower-top" aria-hidden="true">
+      <svg viewBox="0 0 80 80" width="80" height="80">
+        <g transform="translate(40,40)">
+          <ellipse rx="8" ry="20" fill="#E84C7D" opacity="0.85" transform="rotate(0)"/>
+          <ellipse rx="8" ry="20" fill="#D4623A" opacity="0.85" transform="rotate(45)"/>
+          <ellipse rx="8" ry="20" fill="#E8A838" opacity="0.85" transform="rotate(90)"/>
+          <ellipse rx="8" ry="20" fill="#7B2FBE" opacity="0.85" transform="rotate(135)"/>
+          <circle r="10" fill="#FFF8F0"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="quote__content">
+      <blockquote class="quote__text" id="quote-main">
+        "Dos son mejor que uno."
+      </blockquote>
+      <cite class="quote__cite">— Eclesiastés 4:9</cite>
+
+      <div class="quote__separator" aria-hidden="true">✦ ✦ ✦</div>
+
+      <blockquote class="quote__text quote__text--secondary" id="quote-secondary">
+        "Cordón de tres dobleces no se rompe pronto."
+      </blockquote>
+      <cite class="quote__cite">— Eclesiastés 4:12</cite>
+    </div>
+
+    <div class="quote__flower-bottom" aria-hidden="true">
+      <svg viewBox="0 0 80 80" width="60" height="60">
+        <g transform="translate(40,40)">
+          <ellipse rx="6" ry="16" fill="#2D6A4F" opacity="0.85" transform="rotate(0)"/>
+          <ellipse rx="6" ry="16" fill="#2D6A4F" opacity="0.85" transform="rotate(60)"/>
+          <ellipse rx="6" ry="16" fill="#2D6A4F" opacity="0.85" transform="rotate(120)"/>
+          <circle r="7" fill="#E8A838"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- =================== -->
+  <!-- 3. SAVE THE DATE    -->
+  <!-- =================== -->
+  <section id="date" class="section section--date">
+    <div class="date__bg-stars" aria-hidden="true" id="stars-bg"></div>
+
+    <div class="date__content">
+      <p class="date__label">Save the Date</p>
+
+      <div class="date__number-wrap">
+        <span class="date__day">2</span>
+        <div class="date__sparkles" aria-hidden="true">
+          <svg class="sparkle sparkle--1" viewBox="0 0 20 20" width="24" height="24">
+            <path d="M10,0 L11.5,8.5 L20,10 L11.5,11.5 L10,20 L8.5,11.5 L0,10 L8.5,8.5 Z" fill="#E8A838"/>
+          </svg>
+          <svg class="sparkle sparkle--2" viewBox="0 0 20 20" width="16" height="16">
+            <path d="M10,0 L11.5,8.5 L20,10 L11.5,11.5 L10,20 L8.5,11.5 L0,10 L8.5,8.5 Z" fill="#E84C7D"/>
+          </svg>
+          <svg class="sparkle sparkle--3" viewBox="0 0 20 20" width="20" height="20">
+            <path d="M10,0 L11.5,8.5 L20,10 L11.5,11.5 L10,20 L8.5,11.5 L0,10 L8.5,8.5 Z" fill="#FFF8F0"/>
+          </svg>
+        </div>
+      </div>
+
+      <p class="date__month">Noviembre</p>
+      <p class="date__year">2026</p>
+
+      <div class="date__divider" aria-hidden="true">
+        <svg viewBox="0 0 160 12" width="160">
+          <path d="M0,6 Q40,0 80,6 Q120,12 160,6" stroke="#E8A838" stroke-width="1.2" fill="none"/>
+        </svg>
+      </div>
+
+      <!-- Countdown -->
+      <div class="countdown" id="countdown" aria-label="Cuenta regresiva">
+        <div class="countdown__unit">
+          <span class="countdown__num" id="cd-days">---</span>
+          <span class="countdown__label">días</span>
+        </div>
+        <div class="countdown__sep">:</div>
+        <div class="countdown__unit">
+          <span class="countdown__num" id="cd-hours">--</span>
+          <span class="countdown__label">horas</span>
+        </div>
+        <div class="countdown__sep">:</div>
+        <div class="countdown__unit">
+          <span class="countdown__num" id="cd-mins">--</span>
+          <span class="countdown__label">min</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== -->
+  <!-- 4. ITINERARIO       -->
+  <!-- =================== -->
+  <section id="itinerary" class="section section--itinerary">
+    <div class="itinerary__header">
+      <h2 class="section-title">Itinerario</h2>
+      <div class="section-title__ornament" aria-hidden="true">✦</div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline__line" aria-hidden="true">
+        <div class="timeline__line-inner" id="timeline-line"></div>
+      </div>
+
+      <div class="timeline__item timeline__item--left" data-time="11:00 AM">
+        <div class="timeline__dot">
+          <span aria-hidden="true">⛪</span>
+        </div>
+        <div class="timeline__card">
+          <p class="timeline__time">11:00 AM</p>
+          <p class="timeline__event">Inicio Recepción Capilla</p>
+        </div>
+      </div>
+
+      <div class="timeline__item timeline__item--right" data-time="11:30 AM">
+        <div class="timeline__dot">
+          <span aria-hidden="true">💒</span>
+        </div>
+        <div class="timeline__card">
+          <p class="timeline__time">11:30 AM</p>
+          <p class="timeline__event">Inicio de Ceremonia</p>
+        </div>
+      </div>
+
+      <div class="timeline__item timeline__item--left" data-time="1:00 PM">
+        <div class="timeline__dot">
+          <span aria-hidden="true">🎊</span>
+        </div>
+        <div class="timeline__card">
+          <p class="timeline__time">1:00 PM</p>
+          <p class="timeline__event">Recepción</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== -->
+  <!-- 5. UBICACIÓN        -->
+  <!-- =================== -->
+  <section id="venue" class="section section--venue">
+    <div class="venue__bg" aria-hidden="true">
+      <img
+        src="img/WhatsApp Image 2026-05-16 at 22.58.03.jpeg"
+        alt=""
+        class="venue__img"
+        loading="lazy"
+      />
+      <div class="venue__overlay"></div>
+    </div>
+
+    <div class="venue__content">
+      <div class="venue__icon" aria-hidden="true">
+        <svg viewBox="0 0 40 50" width="36" height="44">
+          <path d="M20,0 C9,0 0,9 0,20 C0,35 20,50 20,50 C20,50 40,35 40,20 C40,9 31,0 20,0Z" fill="#E84C7D"/>
+          <circle cx="20" cy="20" r="8" fill="#FFF8F0"/>
+        </svg>
+      </div>
+      <h2 class="section-title section-title--light">Ubicación</h2>
+      <p class="venue__address">
+        Via Puente Piedra a Subachoque<br />
+        <strong>KM 6.5</strong><br />
+        Vereda La Cuesta<br />
+        Desvio Vía La Porquera
+      </p>
+      <a
+        href="https://maps.google.com/?q=Via+Puente+Piedra+a+Subachoque+KM+6.5+Vereda+La+Cuesta"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn--gold"
+        aria-label="Abrir ubicación en Google Maps"
+      >
+        ¿Cómo llegar? 🗺️
+      </a>
+    </div>
+  </section>
+
+  <!-- =================== -->
+  <!-- 6. FAMILIA          -->
+  <!-- =================== -->
+  <section id="family" class="section section--family">
+    <div class="family__flower-left" aria-hidden="true">
+      <svg viewBox="0 0 60 200" width="50">
+        <path d="M30,200 Q10,150 20,100 Q30,60 15,20" stroke="#2D6A4F" stroke-width="2.5" fill="none"/>
+        <ellipse cx="15" cy="80" rx="12" ry="20" fill="#2D6A4F" opacity="0.7" transform="rotate(-30 15 80)"/>
+        <ellipse cx="25" cy="50" rx="10" ry="16" fill="#2D6A4F" opacity="0.6" transform="rotate(20 25 50)"/>
+        <circle cx="15" cy="20" r="8" fill="#E84C7D" opacity="0.9"/>
+      </svg>
+    </div>
+
+    <div class="family__content">
+      <h2 class="section-title">Con amor, nuestra familia</h2>
+      <div class="family__img-wrap">
+        <img
+          src="img/WhatsApp Image 2026-05-16 at 22.58.03 (2).jpeg"
+          alt="Leidy, Fabio y su familia"
+          class="family__img"
+          loading="lazy"
+        />
+        <div class="family__img-frame" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="family__flower-right" aria-hidden="true">
+      <svg viewBox="0 0 60 200" width="50" style="transform:scaleX(-1)">
+        <path d="M30,200 Q10,150 20,100 Q30,60 15,20" stroke="#2D6A4F" stroke-width="2.5" fill="none"/>
+        <ellipse cx="15" cy="80" rx="12" ry="20" fill="#2D6A4F" opacity="0.7" transform="rotate(-30 15 80)"/>
+        <ellipse cx="25" cy="50" rx="10" ry="16" fill="#2D6A4F" opacity="0.6" transform="rotate(20 25 50)"/>
+        <circle cx="15" cy="20" r="8" fill="#E8A838" opacity="0.9"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- =================== -->
+  <!-- 7. DRESS CODE       -->
+  <!-- =================== -->
+  <section id="dresscode" class="section section--dresscode">
+    <h2 class="section-title">Código de Vestimenta</h2>
+    <p class="dresscode__subtitle">Por favor evitar los siguientes colores</p>
+
+    <div class="dresscode__group">
+      <h3 class="dresscode__group-title">Mujeres</h3>
+      <div class="dresscode__swatches">
+        <div class="swatch swatch--blocked">
+          <div class="swatch__color" style="background:#FFFFFF; border:1px solid #ddd;"></div>
+          <span class="swatch__name">Blanco</span>
+          <span class="swatch__x" aria-hidden="true">✕</span>
+        </div>
+        <div class="swatch swatch--blocked">
+          <div class="swatch__color" style="background:#F4C2C2;"></div>
+          <span class="swatch__name">Palo Rosa</span>
+          <span class="swatch__x" aria-hidden="true">✕</span>
+        </div>
+        <div class="swatch swatch--blocked">
+          <div class="swatch__color" style="background:#C0392B;"></div>
+          <span class="swatch__name">Rojo</span>
+          <span class="swatch__x" aria-hidden="true">✕</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dresscode__group">
+      <h3 class="dresscode__group-title">Hombres</h3>
+      <div class="dresscode__swatches">
+        <div class="swatch swatch--tbd">
+          <div class="swatch__color swatch__color--shimmer"></div>
+          <span class="swatch__name">Por definir</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== -->
+  <!-- 8. ANILLO / MANOS   -->
+  <!-- =================== -->
+  <section id="ring" class="section section--ring">
+    <div class="ring__content">
+      <div class="ring__img-wrap">
+        <img
+          src="img/WhatsApp Image 2026-05-16 at 22.58.03 (1).jpeg"
+          alt="Las manos de Leidy y Fabio con el anillo de compromiso"
+          class="ring__img"
+          loading="lazy"
+        />
+        <div class="ring__petals" aria-hidden="true" id="ring-petals"></div>
+      </div>
+      <p class="ring__quote">Un amor para toda la vida</p>
+    </div>
+  </section>
+
+  <!-- =================== -->
+  <!-- 9. RSVP             -->
+  <!-- =================== -->
+  <section id="rsvp" class="section section--rsvp">
+    <div class="rsvp__confetti" aria-hidden="true" id="confetti-container"></div>
+
+    <div class="rsvp__content">
+      <div class="rsvp__castle" aria-hidden="true">
+        <svg viewBox="0 0 120 80" width="100" height="70">
+          <!-- Castle silhouette -->
+          <rect x="10" y="40" width="100" height="40" fill="#7B2FBE" opacity="0.6"/>
+          <rect x="20" y="25" width="20" height="30" fill="#7B2FBE" opacity="0.7"/>
+          <rect x="50" y="15" width="20" height="40" fill="#7B2FBE" opacity="0.8"/>
+          <rect x="80" y="25" width="20" height="30" fill="#7B2FBE" opacity="0.7"/>
+          <!-- Battlements left -->
+          <rect x="20" y="20" width="5" height="8" fill="#7B2FBE" opacity="0.7"/>
+          <rect x="28" y="20" width="5" height="8" fill="#7B2FBE" opacity="0.7"/>
+          <!-- Battlements center -->
+          <rect x="50" y="10" width="5" height="8" fill="#7B2FBE" opacity="0.8"/>
+          <rect x="58" y="10" width="5" height="8" fill="#7B2FBE" opacity="0.8"/>
+          <!-- Battlements right -->
+          <rect x="80" y="20" width="5" height="8" fill="#7B2FBE" opacity="0.7"/>
+          <rect x="88" y="20" width="5" height="8" fill="#7B2FBE" opacity="0.7"/>
+          <!-- Door -->
+          <path d="M55,55 L55,80 L65,80 L65,55 Q60,48 55,55Z" fill="#E8A838" opacity="0.5"/>
+          <!-- Star on top -->
+          <path d="M60,5 L61.5,9 L66,9 L62.5,11.5 L64,15.5 L60,13 L56,15.5 L57.5,11.5 L54,9 L58.5,9 Z" fill="#E8A838"/>
+        </svg>
+      </div>
+
+      <h2 class="section-title section-title--light">¡Confirma tu asistencia!</h2>
+      <p class="rsvp__deadline">Antes del <strong>12 de junio · 2026</strong></p>
+
+      <a
+        href="https://wa.me/573152531231?text=Hola!%20Confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Leidy%20%26%20Fabio%20%F0%9F%8E%89"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn--whatsapp"
+        aria-label="Confirmar asistencia por WhatsApp"
+      >
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="fill:#fff;flex-shrink:0">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+        Confirmar por WhatsApp
+      </a>
+
+      <p class="rsvp__number">+57 315 253 1231</p>
+    </div>
+
+    <footer class="rsvp__footer">
+      <p>Con amor,</p>
+      <p class="rsvp__footer-names">Leidy &amp; Fabio</p>
+      <div class="rsvp__footer-ornament" aria-hidden="true">
+        <svg viewBox="0 0 120 20" width="120">
+          <path d="M0,10 Q30,2 60,10 Q90,18 120,10" stroke="#E8A838" stroke-width="1" fill="none" opacity="0.6"/>
+        </svg>
+      </div>
+    </footer>
+  </section>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="main.js" defer></script>
+</body>
+</html>
