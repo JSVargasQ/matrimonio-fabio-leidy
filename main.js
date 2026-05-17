@@ -2,27 +2,229 @@
    main.js — Leidy & Fabio Wedding Invitation
    ============================================= */
 
-/* ---------- FASE 2: Guest personalization hook ---------- */
+/* ---------- TABLA DE INVITADOS ----------
+   Agregar entradas: 'CODIGO': { name: 'Nombre', seats: N }
+   Usar: https://tu-dominio.com/?code=CODIGO
+   ---------------------------------------- */
+const GUEST_LIST = {
+  'FAM01': { name: 'Familia García',    seats: 4 },
+  'FAM02': { name: 'Familia Rodríguez', seats: 3 },
+  'FAM03': { name: 'Familia López',     seats: 5 },
+  'AMG01': { name: 'Camila',            seats: 2 },
+  'AMG02': { name: 'Sebastián',         seats: 1 },
+  'AMG03': { name: 'Valentina',         seats: 2 },
+  'AMG04': { name: 'Carlos y Mónica',   seats: 2 },
+  'AMG05': { name: 'Laura',             seats: 1 },
+};
+
 function resolveGuest() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
   if (!code) return null;
-  // TODO Fase 2: lookup table or API call here
-  // Example: return { name: 'Juan Pérez', seats: 2 };
-  return null;
+  return GUEST_LIST[code.toUpperCase()] || null;
+}
+
+function guestSeatsMessage(seats) {
+  if (seats === 1) return 'Te esperamos solo a ti 💛';
+  if (seats === 2) return 'Te esperamos a ti y a tu acompañante 💛';
+  return `Te esperamos a ti y tu familia · <strong>${seats} personas</strong> 💛`;
+}
+
+function createWelcomeFireflies() {
+  const container = document.getElementById('welcome-fireflies');
+  if (!container) return;
+  const colors = ['#E8A838', '#E84C7D', '#7B2FBE'];
+  for (let i = 0; i < 14; i++) {
+    const ff = document.createElement('div');
+    ff.className = 'firefly';
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    if (color === '#E84C7D') ff.classList.add('firefly--pink');
+    else if (color === '#7B2FBE') ff.classList.add('firefly--purple');
+    const dx  = (Math.random() - 0.5) * 100;
+    const dy  = -(Math.random() * 80 + 20);
+    const dx2 = (Math.random() - 0.5) * 70;
+    const dy2 = -(Math.random() * 100 + 40);
+    ff.style.cssText = `
+      left:${Math.random() * 100}%;
+      top:${Math.random() * 90 + 5}%;
+      --dur:${(Math.random() * 5 + 4).toFixed(1)}s;
+      --delay:${(Math.random() * 5).toFixed(1)}s;
+      --dx:${dx.toFixed(0)}px; --dy:${dy.toFixed(0)}px;
+      --dx2:${dx2.toFixed(0)}px; --dy2:${dy2.toFixed(0)}px;
+    `;
+    container.appendChild(ff);
+  }
+}
+
+function showGate() {
+  const gate = document.getElementById('guest-gate');
+  if (!gate) return;
+  gate.hidden = false;
+  document.body.style.overflow = 'hidden';
+
+  /* Luciérnagas en el gate */
+  const container = document.getElementById('gate-fireflies');
+  if (container) {
+    const colors = ['', 'firefly--pink', 'firefly--purple'];
+    for (let i = 0; i < 12; i++) {
+      const ff = document.createElement('div');
+      ff.className = 'firefly';
+      const c = colors[Math.floor(Math.random() * colors.length)];
+      if (c) ff.classList.add(c);
+      const dx = (Math.random() - 0.5) * 90, dy = -(Math.random() * 70 + 20);
+      const dx2 = (Math.random() - 0.5) * 60, dy2 = -(Math.random() * 90 + 40);
+      ff.style.cssText = `
+        left:${Math.random()*100}%; top:${Math.random()*90+5}%;
+        --dur:${(Math.random()*5+4).toFixed(1)}s; --delay:${(Math.random()*5).toFixed(1)}s;
+        --dx:${dx.toFixed(0)}px; --dy:${dy.toFixed(0)}px;
+        --dx2:${dx2.toFixed(0)}px; --dy2:${dy2.toFixed(0)}px;
+      `;
+      container.appendChild(ff);
+    }
+  }
 }
 
 function applyGuest() {
+  const code  = new URLSearchParams(window.location.search).get('code');
   const guest = resolveGuest();
-  if (!guest) return;
-  const section = document.getElementById('guest-section');
-  const nameEl  = document.getElementById('guest-name');
-  const seatsEl = document.getElementById('guest-seats');
-  if (section && nameEl && seatsEl) {
-    nameEl.textContent  = guest.name;
-    seatsEl.textContent = guest.seats;
-    section.hidden = false;
+
+  if (!code || !guest) {
+    showGate();
+    return;
   }
+
+  const welcome   = document.getElementById('guest-welcome');
+  const nameEl    = document.getElementById('guest-name');
+  const messageEl = document.getElementById('guest-message');
+  const openBtn   = document.getElementById('guest-open-btn');
+  if (!welcome || !nameEl || !messageEl) return;
+
+  nameEl.textContent        = guest.name;
+  messageEl.innerHTML       = guestSeatsMessage(guest.seats);
+  welcome.hidden            = false;
+  document.body.style.overflow = 'hidden';
+
+  createWelcomeFireflies();
+
+  /* Animación de entrada con GSAP (si está disponible) o CSS fallback */
+  function animateWelcomeIn() {
+    if (typeof gsap !== 'undefined') {
+      gsap.to('.guest-welcome__card', {
+        opacity: 1, scale: 1, y: 0,
+        duration: 1, ease: 'power3.out', delay: 0.2,
+      });
+    } else {
+      const card = document.querySelector('.guest-welcome__card');
+      if (card) { card.style.opacity = '1'; card.style.transform = 'none'; }
+    }
+  }
+
+  /* Cerrar la bienvenida al hacer click en el botón */
+  function dismissWelcome() {
+    if (typeof gsap !== 'undefined') {
+      gsap.to('.guest-welcome__card', {
+        opacity: 0, scale: 0.92, y: -30,
+        duration: 0.55, ease: 'power2.in',
+      });
+      gsap.to('.guest-welcome', {
+        opacity: 0, duration: 0.7, delay: 0.25, ease: 'power2.in',
+        onComplete: () => {
+          welcome.hidden = true;
+          document.body.style.overflow = '';
+        },
+      });
+    } else {
+      welcome.hidden = true;
+      document.body.style.overflow = '';
+    }
+  }
+
+  if (openBtn) openBtn.addEventListener('click', dismissWelcome);
+
+  /* Intentar animar de inmediato; si GSAP no cargó aún, esperar window.load */
+  if (typeof gsap !== 'undefined') {
+    animateWelcomeIn();
+  } else {
+    window.addEventListener('load', animateWelcomeIn, { once: true });
+  }
+}
+
+/* ---------- MUSIC PLAYER ---------- */
+function initMusicPlayer() {
+  const audio = document.getElementById('bg-music');
+  const btn   = document.getElementById('music-toggle');
+  if (!audio || !btn) return;
+
+  audio.volume = 0;
+
+  const PREF_KEY  = 'lf-music-pref'; // 'off' = usuario pausó manualmente
+  const userPaused = sessionStorage.getItem(PREF_KEY) === 'off';
+
+  function setPlaying(playing) {
+    btn.classList.toggle('is-playing', playing);
+    btn.classList.remove('wants-play');
+    btn.setAttribute('aria-pressed', String(playing));
+    btn.setAttribute('aria-label',
+      playing ? 'Pausar música de fondo' : 'Reproducir música de fondo');
+  }
+
+  function play() {
+    audio.play()
+      .then(() => {
+        setPlaying(true);
+        fadeVolume(audio, 0, 0.30, 1400);
+        sessionStorage.removeItem(PREF_KEY);
+      })
+      .catch(() => {
+        /* Navegador bloqueó autoplay: esperamos primera interacción */
+        setPlaying(false);
+        if (!userPaused) scheduleAutoplayOnInteraction();
+      });
+  }
+
+  function pause() {
+    fadeVolume(audio, audio.volume, 0, 600, () => {
+      audio.pause();
+      audio.volume = 0;
+    });
+    setPlaying(false);
+    sessionStorage.setItem(PREF_KEY, 'off');
+  }
+
+  /* Intenta reproducir al primer gesto del usuario (scroll / toque / click) */
+  function scheduleAutoplayOnInteraction() {
+    btn.classList.add('wants-play'); // botón pulsa dorado suavemente
+    const events = ['scroll', 'touchstart', 'click', 'keydown'];
+    function onFirstInteraction() {
+      events.forEach(e => window.removeEventListener(e, onFirstInteraction));
+      if (audio.paused && !userPaused) play();
+    }
+    events.forEach(e => window.addEventListener(e, onFirstInteraction, { once: true, passive: true }));
+  }
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation(); // no activa onFirstInteraction
+    if (audio.paused) play(); else pause();
+  });
+
+  /* Intentar autoplay directo en carga */
+  if (!userPaused) play();
+}
+
+function fadeVolume(audioEl, from, to, durationMs, onDone) {
+  audioEl.volume = from;
+  const steps    = 40;
+  const stepTime = durationMs / steps;
+  const delta    = (to - from) / steps;
+  let   current  = from;
+  const timer = setInterval(() => {
+    current = Math.min(Math.max(current + delta, 0), 1);
+    audioEl.volume = parseFloat(current.toFixed(3));
+    if ((delta > 0 && current >= to) || (delta < 0 && current <= to)) {
+      clearInterval(timer);
+      if (onDone) onDone();
+    }
+  }, stepTime);
 }
 
 /* ---------- COUNTDOWN ---------- */
@@ -57,10 +259,13 @@ function startCountdown() {
 function createStars() {
   const container = document.getElementById('stars-bg');
   if (!container) return;
-  const count = 60;
+  const count = 70;
+  const colorClasses = ['', '', '', '', 'star--pink', 'star--purple', 'star--gold'];
   for (let i = 0; i < count; i++) {
     const star = document.createElement('div');
     star.className = 'star-dot';
+    const colorClass = colorClasses[Math.floor(Math.random() * colorClasses.length)];
+    if (colorClass) star.classList.add(colorClass);
     const size = Math.random() * 2.5 + 0.8;
     star.style.cssText = `
       width:${size}px;
@@ -78,10 +283,13 @@ function createStars() {
 function createFireflies() {
   const container = document.getElementById('fireflies');
   if (!container) return;
-  const count = 18;
+  const count = 22;
+  const colorClasses = ['', '', '', 'firefly--pink', 'firefly--purple'];
   for (let i = 0; i < count; i++) {
     const ff = document.createElement('div');
     ff.className = 'firefly';
+    const colorClass = colorClasses[Math.floor(Math.random() * colorClasses.length)];
+    if (colorClass) ff.classList.add(colorClass);
     const dx  = (Math.random() - 0.5) * 80;
     const dy  = -(Math.random() * 60 + 20);
     const dx2 = (Math.random() - 0.5) * 60;
@@ -124,6 +332,68 @@ function createPetals() {
   }
 }
 
+/* ---------- STAR BURST CANVAS ---------- */
+function createStarBurst() {
+  const canvas = document.getElementById('star-burst');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  function burst(x, y) {
+    const colors = ['#E8A838', '#E84C7D', '#7B2FBE', '#FFF8F0', '#D4623A'];
+    for (let i = 0; i < 50; i++) {
+      const angle = (Math.PI * 2 * i) / 50;
+      const speed = 3 + Math.random() * 4;
+      particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 1,
+        life: 1,
+        decay: 0.012 + Math.random() * 0.01,
+        size: Math.random() * 5 + 2,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      });
+    }
+  }
+
+  function loop() {
+    requestAnimationFrame(loop);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.06;
+      p.life -= p.decay;
+      if (p.life <= 0) { particles.splice(i, 1); continue; }
+      ctx.save();
+      ctx.globalAlpha = p.life;
+      ctx.fillStyle = p.color;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 8;
+      const s = p.size * p.life;
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y - s);
+      ctx.quadraticCurveTo(p.x + s*0.2, p.y - s*0.2, p.x + s, p.y);
+      ctx.quadraticCurveTo(p.x + s*0.2, p.y + s*0.2, p.x, p.y + s);
+      ctx.quadraticCurveTo(p.x - s*0.2, p.y + s*0.2, p.x - s, p.y);
+      ctx.quadraticCurveTo(p.x - s*0.2, p.y - s*0.2, p.x, p.y - s);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+  requestAnimationFrame(loop);
+  window.triggerStarBurst = function(x, y) { burst(x, y); };
+}
+
 /* ---------- CONFETTI (RSVP) ---------- */
 function createConfetti() {
   const container = document.getElementById('confetti-container');
@@ -146,6 +416,46 @@ function createConfetti() {
     `;
     container.appendChild(c);
   }
+}
+
+/* ---------- FAMILY FIREFLIES ---------- */
+function createFamilyFireflies() {
+  const wrapper = document.querySelector('.family__img-wrap');
+  if (!wrapper) return;
+  const colors = ['#E8A838', '#E84C7D', '#D4623A'];
+  for (let i = 0; i < 7; i++) {
+    const ff = document.createElement('div');
+    ff.className = 'family__firefly';
+    const size = Math.random() * 4 + 2;
+    ff.style.cssText = `
+      width:${size}px;
+      height:${size}px;
+      left:${Math.random() * 88 + 6}%;
+      top:${Math.random() * 75 + 10}%;
+      background:${colors[Math.floor(Math.random() * colors.length)]};
+      box-shadow: 0 0 6px 2px ${colors[Math.floor(Math.random() * colors.length)]}99;
+      --ff-dur:${(Math.random() * 3 + 3).toFixed(1)}s;
+      --ff-delay:${(Math.random() * 5).toFixed(1)}s;
+      --ff-x:${((Math.random()-0.5)*50).toFixed(0)}px;
+      --ff-y:${(-(Math.random()*40+15)).toFixed(0)}px;
+      --ff-x2:${((Math.random()-0.5)*35).toFixed(0)}px;
+      --ff-y2:${(-(Math.random()*60+25)).toFixed(0)}px;
+    `;
+    wrapper.appendChild(ff);
+  }
+}
+
+/* ---------- SCROLL HINT ---------- */
+function initScrollHint() {
+  const scrollHint = document.querySelector('.scroll-hint');
+  if (!scrollHint) return;
+  const hideHint = () => {
+    if (window.scrollY > 60) {
+      scrollHint.classList.add('hidden');
+      window.removeEventListener('scroll', hideHint);
+    }
+  };
+  window.addEventListener('scroll', hideHint, { passive: true });
 }
 
 /* ---------- FAIRY DUST CANVAS ---------- */
@@ -237,6 +547,22 @@ function createConfetti() {
   requestAnimationFrame(loop);
 })();
 
+/* ---------- HELPER: split text into word spans ---------- */
+function splitWords(el) {
+  if (!el) return [];
+  const text = el.textContent;
+  el.setAttribute('aria-label', text);
+  const words = text.split(/(\s+)/);
+  el.innerHTML = '';
+  return words.map(word => {
+    const span = document.createElement('span');
+    span.innerHTML = word === ' ' ? '&nbsp;' : word.replace(/&/g, '&amp;');
+    span.style.display = 'inline';
+    el.appendChild(span);
+    return span;
+  });
+}
+
 /* ---------- GSAP ANIMATIONS ---------- */
 function initGSAP() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -245,12 +571,12 @@ function initGSAP() {
   /* --- Helper: split text into char spans --- */
   function splitChars(el) {
     if (!el) return [];
-    const text   = el.textContent;
+    const text = el.textContent;
+    if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', text);
     el.innerHTML = '';
-    el.setAttribute('aria-label', text);
     return [...text].map(ch => {
       const span = document.createElement('span');
-      span.textContent = ch === ' ' ? ' ' : ch;
+      span.textContent = ch === ' ' ? ' ' : ch;
       span.style.display = 'inline-block';
       el.appendChild(span);
       return span;
@@ -280,21 +606,45 @@ function initGSAP() {
     },
   });
 
-  /* ---------- 2. QUOTE ---------- */
-  gsap.to('.quote__flower-top', {
-    opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.7)',
-    scrollTrigger: { trigger: '#quote', start: 'top 80%' },
+  /* --- Hero: fade out content al scroll (suave) --- */
+  gsap.to('.hero__content', {
+    opacity: 0,
+    y: -40,
+    ease: 'power2.in',
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: '50% top',
+      scrub: 1.5,
+    },
   });
 
-  const quoteMainChars = splitChars(document.getElementById('quote-main'));
+  /* ---------- 2. QUOTE ---------- */
+  /* Flores: entrada + rotación scrub combinadas */
+  gsap.to('.quote__flower-top', {
+    opacity: 1, scale: 1, rotation: 180,
+    ease: 'none',
+    scrollTrigger: { trigger: '#quote', start: 'top 80%', end: 'bottom 20%', scrub: 2 },
+  });
+
+  gsap.to('.quote__flower-bottom', {
+    opacity: 1, scale: 1, rotation: -180,
+    ease: 'none',
+    scrollTrigger: { trigger: '#quote', start: 'top 80%', end: 'bottom 20%', scrub: 2 },
+  });
+
+  const quoteMainEl = document.getElementById('quote-main');
+  const quoteMainChars = splitChars(quoteMainEl);
   if (quoteMainChars.length) {
     gsap.from(quoteMainChars, {
-      opacity: 0, y: 20,
-      stagger: 0.025,
-      ease: 'power2.out',
+      opacity: 0, y: 20, stagger: 0.025, ease: 'power2.out',
       scrollTrigger: { trigger: '#quote', start: 'top 70%' },
     });
-    gsap.to(document.getElementById('quote-main'), { opacity: 1, y: 0, duration: 0.01 });
+    gsap.to(quoteMainEl, { opacity: 1, y: 0, duration: 0.01 });
+    ScrollTrigger.create({
+      trigger: '#quote', start: 'top 70%',
+      onEnter: () => quoteMainEl && quoteMainEl.classList.add('glow-active'),
+    });
   }
 
   gsap.to('.quote__cite', {
@@ -302,15 +652,18 @@ function initGSAP() {
     scrollTrigger: { trigger: '#quote', start: 'top 60%' },
   });
 
-  const quoteSecChars = splitChars(document.getElementById('quote-secondary'));
+  const quoteSecEl = document.getElementById('quote-secondary');
+  const quoteSecChars = splitChars(quoteSecEl);
   if (quoteSecChars.length) {
     gsap.from(quoteSecChars, {
-      opacity: 0, y: 20,
-      stagger: 0.018,
-      ease: 'power2.out',
+      opacity: 0, y: 20, stagger: 0.018, ease: 'power2.out',
       scrollTrigger: { trigger: '#quote', start: 'top 50%' },
     });
-    gsap.to(document.getElementById('quote-secondary'), { opacity: 1, y: 0, duration: 0.01 });
+    gsap.to(quoteSecEl, { opacity: 1, y: 0, duration: 0.01 });
+    ScrollTrigger.create({
+      trigger: '#quote', start: 'top 50%',
+      onEnter: () => quoteSecEl && quoteSecEl.classList.add('glow-active'),
+    });
   }
 
   gsap.to('.quote__flower-bottom', {
@@ -324,9 +677,28 @@ function initGSAP() {
     scrollTrigger: { trigger: '#date', start: 'top 75%' },
   });
 
+  /* Número "2" con efecto visual de construcción */
   gsap.to('.date__number-wrap', {
-    opacity: 1, scale: 1, duration: 1, ease: 'elastic.out(1, 0.5)',
-    scrollTrigger: { trigger: '#date', start: 'top 65%' },
+    opacity: 1, scale: 1, duration: 0.6,
+    scrollTrigger: {
+      trigger: '#date', start: 'top 65%',
+      onEnter: () => {
+        const dayEl = document.querySelector('.date__day');
+        if (dayEl) {
+          gsap.fromTo(dayEl,
+            { opacity: 0, scale: 0.3, filter: 'blur(15px)' },
+            { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.2, ease: 'back.out(1.5)',
+              onComplete: () => {
+                if (window.triggerStarBurst) {
+                  const rect = dayEl.getBoundingClientRect();
+                  window.triggerStarBurst(rect.left + rect.width/2, rect.top + rect.height/2);
+                }
+              }
+            }
+          );
+        }
+      }
+    },
   });
 
   gsap.to('.date__month', {
@@ -339,35 +711,67 @@ function initGSAP() {
     scrollTrigger: { trigger: '#date', start: 'top 50%' },
   });
 
+  /* Countdown: entrada stagger secuencial por unidad */
   gsap.to('.countdown', {
-    opacity: 1, duration: 0.8,
+    opacity: 1, duration: 0.01,
     scrollTrigger: { trigger: '#date', start: 'top 45%' },
   });
 
-  /* ---------- 4. ITINERARY — growing timeline line ---------- */
+  const countdownUnits = gsap.utils.toArray('.countdown__unit');
+  countdownUnits.forEach((unit, idx) => {
+    gsap.fromTo(unit,
+      { opacity: 0, scale: 0, y: 30 },
+      {
+        opacity: 1, scale: 1, y: 0,
+        duration: 0.6, delay: idx * 0.18,
+        ease: 'elastic.out(1, 0.6)',
+        scrollTrigger: { trigger: '#date', start: 'top 45%' },
+      }
+    );
+  });
+
+  gsap.utils.toArray('.countdown__sep').forEach((sep, idx) => {
+    gsap.fromTo(sep,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.4, delay: (idx + 1) * 0.18,
+        scrollTrigger: { trigger: '#date', start: 'top 45%' } }
+    );
+  });
+
+  /* ---------- 4. ITINERARY ---------- */
   gsap.to('#timeline-line', {
-    height: '100%',
-    ease: 'none',
+    height: '100%', ease: 'none',
     scrollTrigger: {
-      trigger: '.timeline',
-      start: 'top 70%',
-      end: 'bottom 60%',
-      scrub: 0.5,
+      trigger: '.timeline', start: 'top 70%', end: 'bottom 60%', scrub: 0.5,
     },
   });
 
   gsap.utils.toArray('.timeline__item').forEach((item) => {
     const isLeft = item.classList.contains('timeline__item--left');
-    gsap.to(item, {
-      opacity: 1,
-      x: 0,
-      duration: 0.7,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: item,
-        start: 'top 78%',
-      },
-    });
+    gsap.fromTo(item,
+      { opacity: 0, x: isLeft ? -40 : 40 },
+      {
+        opacity: 1, x: 0,
+        ease: 'power1.inOut',
+        scrollTrigger: { trigger: item, start: 'top 82%', end: 'center 55%', scrub: 1 },
+      }
+    );
+  });
+
+  /* Dot pulse cuando la línea pasa por cada punto */
+  ScrollTrigger.create({
+    trigger: '.timeline', start: 'top 70%', end: 'bottom 60%',
+    onUpdate: (self) => {
+      const dots = gsap.utils.toArray('.timeline__dot');
+      dots.forEach((dot, idx) => {
+        const threshold = (idx + 0.5) / dots.length;
+        if (Math.abs(self.progress - threshold) < 0.18) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    },
   });
 
   /* ---------- 5. VENUE ---------- */
@@ -376,37 +780,75 @@ function initGSAP() {
     scrollTrigger: { trigger: '#venue', start: 'top 70%' },
   });
 
-  gsap.to('.venue__address', {
-    opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
-    scrollTrigger: { trigger: '#venue', start: 'top 60%' },
-  });
+  /* Title reveal char by char */
+  const venueTitleEl = document.querySelector('#venue .section-title');
+  if (venueTitleEl) {
+    gsap.set(venueTitleEl, { opacity: 1 });
+    const chars = splitChars(venueTitleEl);
+    gsap.from(chars, {
+      opacity: 0, y: 10, stagger: 0.035, duration: 0.4, ease: 'power2.out',
+      scrollTrigger: { trigger: '#venue', start: 'top 65%' },
+    });
+  }
 
-  gsap.to('#venue .section-title', {
-    opacity: 1, y: 0, duration: 0.7,
-    scrollTrigger: { trigger: '#venue', start: 'top 65%' },
-  });
+  /* Address reveal word by word */
+  const venueAddrEl = document.querySelector('.venue__address');
+  if (venueAddrEl) {
+    gsap.set(venueAddrEl, { opacity: 1 });
+    const words = splitWords(venueAddrEl);
+    gsap.from(words, {
+      opacity: 0, y: 8, stagger: 0.06, duration: 0.35, ease: 'power2.out',
+      scrollTrigger: { trigger: '#venue', start: 'top 60%' },
+    });
+  }
 
   gsap.to('#venue .btn', {
     opacity: 1, y: 0, duration: 0.6,
     scrollTrigger: { trigger: '#venue', start: 'top 55%' },
   });
 
-  // Venue parallax
   gsap.to('.venue__img', {
-    yPercent: -15,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '#venue',
-      start: 'top bottom',
-      end: 'bottom top',
-      scrub: true,
-    },
+    yPercent: -15, ease: 'none',
+    scrollTrigger: { trigger: '#venue', start: 'top bottom', end: 'bottom top', scrub: true },
   });
 
   /* ---------- 6. FAMILY ---------- */
+  createFamilyFireflies();
+
+  /* Title char reveal */
+  const familyTitleEl = document.querySelector('#family .section-title');
+  if (familyTitleEl) {
+    gsap.set(familyTitleEl, { opacity: 1 });
+    const fChars = splitChars(familyTitleEl);
+    gsap.from(fChars, {
+      opacity: 0, y: 12, stagger: 0.04, duration: 0.4, ease: 'power2.out',
+      scrollTrigger: { trigger: '#family', start: 'top 72%' },
+    });
+  }
+
   gsap.to('.family__content', {
     opacity: 1, y: 0, duration: 1, ease: 'power3.out',
     scrollTrigger: { trigger: '#family', start: 'top 70%' },
+  });
+
+  /* Photo parallax: zoom out while scrolling toward it */
+  gsap.fromTo('.family__img',
+    { scale: 1.12 },
+    {
+      scale: 1, ease: 'none',
+      scrollTrigger: { trigger: '.family__img-wrap', start: 'top 85%', end: 'center 50%', scrub: 1.5 },
+    }
+  );
+
+  /* Flowers scroll scrub: rotate while scrolling */
+  gsap.to('.family__flower-left', {
+    rotation: 25, y: 6, ease: 'none',
+    scrollTrigger: { trigger: '#family', start: 'top 70%', end: 'bottom 30%', scrub: true },
+  });
+
+  gsap.to('.family__flower-right', {
+    rotation: -25, y: 6, ease: 'none',
+    scrollTrigger: { trigger: '#family', start: 'top 70%', end: 'bottom 30%', scrub: true },
   });
 
   gsap.to('.family__flower-left, .family__flower-right', {
@@ -414,15 +856,29 @@ function initGSAP() {
     scrollTrigger: { trigger: '#family', start: 'top 65%' },
   });
 
-  /* ---------- 7. DRESSCODE ---------- */
+  /* ---------- 7. DRESSCODE (nueva posición) ---------- */
   gsap.to('.dresscode__group', {
     opacity: 1, y: 0, duration: 0.7, stagger: 0.2, ease: 'power2.out',
     scrollTrigger: { trigger: '#dresscode', start: 'top 70%' },
   });
 
-  gsap.to('.swatch', {
-    opacity: 1, scale: 1, duration: 0.5, stagger: 0.12, ease: 'back.out(1.7)',
-    scrollTrigger: { trigger: '#dresscode', start: 'top 65%' },
+  gsap.fromTo('.swatch',
+    { opacity: 0, scale: 0.6, rotateY: -20 },
+    {
+      opacity: 1, scale: 1, rotateY: 0,
+      duration: 0.5, stagger: 0.12, ease: 'back.out(1.7)',
+      scrollTrigger: { trigger: '#dresscode', start: 'top 65%' },
+    }
+  );
+
+  /* Swatches orbital scrub */
+  gsap.utils.toArray('.swatch').forEach((swatch, i) => {
+    gsap.to(swatch, {
+      rotation: i % 2 === 0 ? 12 : -12,
+      y: i % 2 === 0 ? -5 : 5,
+      ease: 'none',
+      scrollTrigger: { trigger: '#dresscode', start: 'top 50%', end: 'bottom 30%', scrub: 1.5 },
+    });
   });
 
   /* ---------- 8. RING ---------- */
@@ -431,17 +887,112 @@ function initGSAP() {
     scrollTrigger: { trigger: '#ring', start: 'top 72%' },
   });
 
+  /* Reveal vertical: clip-path de arriba a abajo con scrub */
+  gsap.to('.ring__img', {
+    clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+    ease: 'power1.inOut',
+    scrollTrigger: { trigger: '#ring', start: 'top 60%', end: 'center 40%', scrub: 1.2 },
+  });
+
+  /* Quote reveal word by word */
+  const ringQuoteEl = document.getElementById('ring-quote');
+  if (ringQuoteEl) {
+    gsap.set(ringQuoteEl, { opacity: 1 });
+    const qWords = splitWords(ringQuoteEl);
+    gsap.from(qWords, {
+      opacity: 0, y: 8, stagger: 0.1, duration: 0.5, ease: 'power2.out',
+      scrollTrigger: { trigger: '#ring', start: 'center 55%' },
+    });
+  }
+
   /* ---------- 9. RSVP ---------- */
+
+  /* Castle reveal: clip-path circular */
+  let castleFloating = false;
+  gsap.to('.rsvp__castle', {
+    opacity: 1,
+    clipPath: 'circle(100% at 50% 50%)',
+    ease: 'power2.inOut',
+    scrollTrigger: {
+      trigger: '#rsvp', start: 'top 60%', end: 'top 20%', scrub: 0.8,
+      onLeave: () => {
+        if (!castleFloating) {
+          castleFloating = true;
+          gsap.to('.rsvp__castle', { y: -8, yoyo: true, repeat: -1, duration: 4, ease: 'sine.inOut' });
+        }
+      },
+    },
+  });
+
+  /* Confetti: iniciar solo al entrar en viewport */
+  const rsvpObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      gsap.utils.toArray('.confetti-piece').forEach(piece => {
+        const dur  = parseFloat(piece.style.getPropertyValue('--cf-dur'))  || 4;
+        const del  = parseFloat(piece.style.getPropertyValue('--cf-del'))  || 0;
+        const xOff = parseFloat(piece.style.getPropertyValue('--cf-x'))    || 20;
+        gsap.fromTo(piece,
+          { opacity: 0, y: -10 },
+          { opacity: 1, y: window.innerHeight, rotation: 720, x: xOff,
+            duration: dur, delay: del, repeat: -1, repeatDelay: 1.5, ease: 'none' }
+        );
+      });
+      rsvpObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.2 });
+  const rsvpSection = document.getElementById('rsvp');
+  if (rsvpSection) rsvpObserver.observe(rsvpSection);
+
+  /* Contenido principal */
   gsap.to('.rsvp__content', {
     opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
     scrollTrigger: { trigger: '#rsvp', start: 'top 70%' },
   });
 
-  /* --- Set initial states for elements that need opacity:1 to be visible on load fallback --- */
-  document.querySelectorAll('.venue__address, #venue .section-title, #venue .btn').forEach(el => {
-    if (!el.style.transform) el.style.transform = 'translateY(20px)';
-    el.style.opacity = '0';
+  /* Botón WhatsApp: entrance con escala + glow */
+  gsap.to('.btn--whatsapp', {
+    opacity: 1, scale: 1, duration: 0.8, ease: 'elastic.out(1, 0.6)',
+    scrollTrigger: { trigger: '#rsvp', start: 'top 60%' },
   });
+
+  /* Footer names: char by char */
+  const footerNamesEl = document.getElementById('rsvp-footer-names');
+  if (footerNamesEl) {
+    gsap.set(footerNamesEl, { opacity: 1 });
+    const fChars = splitChars(footerNamesEl);
+    gsap.from(fChars, {
+      opacity: 0, y: 8, stagger: 0.05, duration: 0.4, ease: 'power2.out',
+      scrollTrigger: { trigger: '.rsvp__footer', start: 'top 80%' },
+    });
+  }
+
+  /* Sparkles en progress bar */
+  const sparkleContainer = document.querySelector('.scroll-sparkles');
+  if (sparkleContainer) {
+    const sparkles = [];
+    for (let i = 0; i < 4; i++) {
+      const sp = document.createElement('div');
+      sp.className = 'scroll-sparkle';
+      sparkleContainer.appendChild(sp);
+      sparkles.push(sp);
+    }
+    sparkles.forEach((sp, i) => {
+      gsap.to(sp, {
+        left: '100%',
+        opacity: () => 0.9 - i * 0.2,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: 'body', start: 'top top', end: 'bottom bottom',
+          scrub: true,
+          onUpdate: (self) => {
+            const leftPct = self.progress * 100;
+            gsap.set(sp, { left: `${leftPct - i * 1.5}%`, opacity: self.progress > 0 && self.progress < 1 ? 0.9 - i * 0.2 : 0 });
+          },
+        },
+      });
+    });
+  }
 }
 
 /* ---------- INIT ---------- */
@@ -452,6 +1003,9 @@ document.addEventListener('DOMContentLoaded', () => {
   createFireflies();
   createPetals();
   createConfetti();
+  createStarBurst();
+  initScrollHint();
+  initMusicPlayer();
 });
 
 // GSAP loads deferred — wait for it
