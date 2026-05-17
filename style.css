@@ -118,10 +118,10 @@ a {
 .guest-gate__card {
   position: relative;
   z-index: 2;
-  background: rgba(255, 248, 240, 0.06);
-  border: 1px solid rgba(232, 168, 56, 0.3);
+  background: rgba(255, 248, 240, 0.08);
+  border: 1px solid rgba(232, 168, 56, 0.5);
   border-radius: clamp(1.25rem, 4vw, 2rem);
-  backdrop-filter: blur(16px) saturate(1.8);
+  backdrop-filter: blur(10px) saturate(1.6);
   padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 6vw, 3rem);
   max-width: 400px;
   width: 100%;
@@ -192,7 +192,7 @@ a {
 
 .guest-gate__test-btn {
   display: inline-block;
-  padding: 0.75rem 2rem;
+  padding: 0.875rem 2.2rem;
   border-radius: 100px;
   background: linear-gradient(135deg, var(--gold), var(--orange));
   color: var(--dark);
@@ -228,9 +228,9 @@ a {
 
 .guest-gate__test-note {
   font-family: var(--font-sans);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--cream);
-  opacity: 0.4;
+  opacity: 0.45;
   letter-spacing: 0.03em;
 }
 
@@ -268,10 +268,10 @@ a {
 .guest-welcome__card {
   position: relative;
   z-index: 2;
-  background: rgba(255, 248, 240, 0.06);
-  border: 1px solid rgba(232, 168, 56, 0.35);
+  background: rgba(255, 248, 240, 0.08);
+  border: 1px solid rgba(232, 168, 56, 0.5);
   border-radius: clamp(1.25rem, 4vw, 2rem);
-  backdrop-filter: blur(16px) saturate(1.8);
+  backdrop-filter: blur(10px) saturate(1.6);
   padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 6vw, 3rem);
   max-width: 440px;
   width: 100%;
@@ -295,7 +295,7 @@ a {
 
 .guest-welcome__eyebrow {
   font-family: var(--font-sans);
-  font-size: clamp(0.7rem, 2.5vw, 0.82rem);
+  font-size: clamp(0.875rem, 2.5vw, 0.95rem);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);
@@ -552,7 +552,7 @@ a {
 
 .hero__eyebrow {
   font-family: var(--font-sans);
-  font-size: clamp(0.75rem, 3vw, 0.9rem);
+  font-size: clamp(0.875rem, 3vw, 0.95rem);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
@@ -647,11 +647,11 @@ a {
 }
 
 .scroll-hint__text {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--gold);
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 /* =============================================
@@ -760,7 +760,7 @@ a {
 
 .date__label {
   font-family: var(--font-sans);
-  font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+  font-size: clamp(0.875rem, 2.5vw, 0.95rem);
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--gold);
@@ -856,7 +856,7 @@ a {
 }
 
 .countdown__label {
-  font-size: clamp(0.6rem, 2vw, 0.75rem);
+  font-size: clamp(0.75rem, 2vw, 0.85rem);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--gold);
@@ -1037,10 +1037,10 @@ a {
 }
 
 .venue__card {
-  background: rgba(255, 248, 240, 0.07);
-  border: 1px solid rgba(232, 168, 56, 0.3);
+  background: rgba(255, 248, 240, 0.09);
+  border: 1px solid rgba(232, 168, 56, 0.45);
   border-radius: var(--radius);
-  backdrop-filter: blur(14px) saturate(1.8);
+  backdrop-filter: blur(8px) saturate(1.5);
   padding: 1.75rem 1.5rem;
   width: 100%;
   box-shadow: 0 8px 32px rgba(232,168,56,0.08), inset 0 1px 0 rgba(255,248,240,0.07);
@@ -1205,7 +1205,7 @@ a {
 }
 
 .swatch__name {
-  font-size: clamp(0.7rem, 2.5vw, 0.82rem);
+  font-size: clamp(0.875rem, 2.5vw, 0.95rem);
   color: var(--cream);
   opacity: 0.8;
   text-align: center;
@@ -1400,10 +1400,21 @@ a {
 }
 
 .rsvp__number {
-  font-size: clamp(0.85rem, 3vw, 1rem);
+  font-size: clamp(0.875rem, 3vw, 1rem);
   color: var(--cream);
   opacity: 0.6;
   letter-spacing: 0.08em;
+}
+
+.rsvp__dietary {
+  font-family: var(--font-sans);
+  font-size: clamp(0.8rem, 2.8vw, 0.875rem);
+  color: var(--cream);
+  opacity: 0.5;
+  text-align: center;
+  line-height: 1.6;
+  font-style: italic;
+  max-width: 280px;
 }
 
 /* =============================================
@@ -1677,11 +1688,11 @@ a {
 /* Tooltip */
 .music-btn__tooltip {
   font-family: var(--font-sans);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
-  opacity: 0.55;
+  opacity: 0.65;
   user-select: none;
   pointer-events: none;
 }
@@ -1717,6 +1728,34 @@ a {
   inset: 0;
   pointer-events: none;
   z-index: 50;
+}
+
+/* =============================================
+   MUSIC TOAST
+   ============================================= */
+#music-toast {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1.25rem;
+  background: rgba(26, 10, 46, 0.9);
+  border: 1px solid rgba(232, 168, 56, 0.4);
+  border-radius: 2rem;
+  padding: 0.55rem 1.1rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--gold);
+  backdrop-filter: blur(8px);
+  z-index: 989;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+#music-toast.music-toast--visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* =============================================

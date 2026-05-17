@@ -87,7 +87,7 @@
   <!-- ========================== -->
   <!-- BIENVENIDA PERSONALIZADA  -->
   <!-- ========================== -->
-  <div id="guest-welcome" class="guest-welcome" hidden aria-live="polite" role="dialog" aria-modal="true">
+  <div id="guest-welcome" class="guest-welcome" hidden aria-live="polite" role="dialog" aria-modal="true" aria-labelledby="guest-welcome-title">
     <div class="guest-welcome__bg" aria-hidden="true"></div>
     <div id="welcome-fireflies" class="guest-welcome__fireflies" aria-hidden="true"></div>
 
@@ -102,7 +102,7 @@
       </div>
 
       <p class="guest-welcome__eyebrow">con todo nuestro amor</p>
-      <h2 class="guest-welcome__couple">Leidy &amp; Fabio</h2>
+      <h2 class="guest-welcome__couple" id="guest-welcome-title">Leidy &amp; Fabio</h2>
       <p class="guest-welcome__date">2 · Noviembre · 2026</p>
 
       <div class="guest-welcome__separator" aria-hidden="true">✦</div>
@@ -124,7 +124,7 @@
   <!-- =================== -->
   <!-- 1. HERO             -->
   <!-- =================== -->
-  <section id="hero" class="section section--hero">
+  <section id="hero" class="section section--hero" aria-label="Portada">
     <div class="hero__bg" aria-hidden="true">
       <img
         src="img/WhatsApp Image 2026-05-16 at 22.58.03.jpeg"
@@ -148,7 +148,7 @@
         </svg>
       </div>
 
-      <p class="hero__eyebrow">¡Están invitados a nuestra boda!</p>
+      <p class="hero__eyebrow">Con alegría en nuestros corazones, los invitamos</p>
       <h1 class="hero__names">Leidy <span class="ampersand">&amp;</span> Fabio</h1>
 
       <div class="hero__divider" aria-hidden="true">
@@ -171,7 +171,7 @@
   <!-- =================== -->
   <!-- 2. VERSÍCULO        -->
   <!-- =================== -->
-  <section id="quote" class="section section--quote">
+  <section id="quote" class="section section--quote" aria-label="Versículo">
     <div class="quote__flower-top" aria-hidden="true">
       <svg viewBox="0 0 80 80" width="80" height="80">
         <g transform="translate(40,40)">
@@ -213,7 +213,7 @@
   <!-- =================== -->
   <!-- 3. SAVE THE DATE    -->
   <!-- =================== -->
-  <section id="date" class="section section--date">
+  <section id="date" class="section section--date" aria-label="Save the Date">
     <div class="date__bg-stars" aria-hidden="true" id="stars-bg"></div>
 
     <div class="date__content">
@@ -246,17 +246,17 @@
       <!-- Countdown -->
       <div class="countdown" id="countdown" aria-label="Cuenta regresiva">
         <div class="countdown__unit">
-          <span class="countdown__num" id="cd-days">---</span>
+          <span class="countdown__num" id="cd-days">…</span>
           <span class="countdown__label">días</span>
         </div>
         <div class="countdown__sep">:</div>
         <div class="countdown__unit">
-          <span class="countdown__num" id="cd-hours">--</span>
+          <span class="countdown__num" id="cd-hours">…</span>
           <span class="countdown__label">horas</span>
         </div>
         <div class="countdown__sep">:</div>
         <div class="countdown__unit">
-          <span class="countdown__num" id="cd-mins">--</span>
+          <span class="countdown__num" id="cd-mins">…</span>
           <span class="countdown__label">min</span>
         </div>
       </div>
@@ -267,7 +267,7 @@
   <!-- =================== -->
   <!-- 4. ITINERARIO       -->
   <!-- =================== -->
-  <section id="itinerary" class="section section--itinerary">
+  <section id="itinerary" class="section section--itinerary" aria-label="Itinerario">
     <div class="itinerary__header">
       <h2 class="section-title">Itinerario</h2>
       <div class="section-title__ornament" aria-hidden="true">✦</div>
@@ -279,7 +279,7 @@
       </div>
 
       <div class="timeline__item timeline__item--left" data-time="11:00 AM">
-        <div class="timeline__dot">
+        <div class="timeline__dot" aria-label="Capilla">
           <span aria-hidden="true">⛪</span>
         </div>
         <div class="timeline__card">
@@ -289,7 +289,7 @@
       </div>
 
       <div class="timeline__item timeline__item--right" data-time="11:30 AM">
-        <div class="timeline__dot">
+        <div class="timeline__dot" aria-label="Ceremonia">
           <span aria-hidden="true">💒</span>
         </div>
         <div class="timeline__card">
@@ -299,7 +299,7 @@
       </div>
 
       <div class="timeline__item timeline__item--left" data-time="1:00 PM">
-        <div class="timeline__dot">
+        <div class="timeline__dot" aria-label="Recepción">
           <span aria-hidden="true">🎊</span>
         </div>
         <div class="timeline__card">
@@ -313,7 +313,7 @@
   <!-- =================== -->
   <!-- 5. UBICACIÓN        -->
   <!-- =================== -->
-  <section id="venue" class="section section--venue">
+  <section id="venue" class="section section--venue" aria-label="Ubicación">
     <div class="venue__bg" aria-hidden="true">
       <img
         src="img/WhatsApp Image 2026-05-16 at 22.58.03.jpeg"
@@ -355,7 +355,7 @@
   <!-- =================== -->
   <!-- 6. DRESS CODE       -->
   <!-- =================== -->
-  <section id="dresscode" class="section section--dresscode">
+  <section id="dresscode" class="section section--dresscode" aria-label="Código de vestimenta">
     <h2 class="section-title">Código de Vestimenta</h2>
     <p class="dresscode__subtitle">Inspírate en la magia · estos colores son de los novios</p>
 
@@ -391,7 +391,7 @@
   <!-- =================== -->
   <!-- 7. FAMILIA          -->
   <!-- =================== -->
-  <section id="family" class="section section--family">
+  <section id="family" class="section section--family" aria-label="Nuestra familia">
     <div class="family__flower-left" aria-hidden="true">
       <svg viewBox="0 0 60 200" width="50">
         <path d="M30,200 Q10,150 20,100 Q30,60 15,20" stroke="#2D6A4F" stroke-width="2.5" fill="none"/>
@@ -427,7 +427,7 @@
   <!-- =================== -->
   <!-- 8. ANILLO / MANOS   -->
   <!-- =================== -->
-  <section id="ring" class="section section--ring">
+  <section id="ring" class="section section--ring" aria-label="Anillo de compromiso">
     <div class="ring__content">
       <div class="ring__img-wrap">
         <img
@@ -445,7 +445,7 @@
   <!-- =================== -->
   <!-- 9. RSVP             -->
   <!-- =================== -->
-  <section id="rsvp" class="section section--rsvp">
+  <section id="rsvp" class="section section--rsvp" aria-label="Confirmar asistencia">
     <div class="rsvp__confetti" aria-hidden="true" id="confetti-container"></div>
 
     <div class="rsvp__content">
@@ -489,6 +489,7 @@
       </a>
 
       <p class="rsvp__number">+57 315 253 1231</p>
+      <p class="rsvp__dietary">Si tienes alguna restricción alimentaria o alergia,<br />menciónala al confirmar tu asistencia.</p>
     </div>
 
     <footer class="rsvp__footer">

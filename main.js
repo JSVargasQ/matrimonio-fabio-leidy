@@ -141,6 +141,12 @@ function applyGuest() {
 
   if (openBtn) openBtn.addEventListener('click', dismissWelcome);
 
+  /* Cerrar con ESC */
+  const escHandler = (e) => {
+    if (e.key === 'Escape') { dismissWelcome(); document.removeEventListener('keydown', escHandler); }
+  };
+  document.addEventListener('keydown', escHandler);
+
   /* Intentar animar de inmediato; si GSAP no cargó aún, esperar window.load */
   if (typeof gsap !== 'undefined') {
     animateWelcomeIn();
@@ -209,6 +215,28 @@ function initMusicPlayer() {
 
   /* Intentar autoplay directo en carga */
   if (!userPaused) play();
+
+  /* Toast suave si el navegador bloqueó el autoplay y el usuario no interactuó */
+  setTimeout(() => {
+    if (audio.paused && !userPaused && btn.classList.contains('wants-play')) {
+      showMusicToast();
+    }
+  }, 4000);
+}
+
+function showMusicToast() {
+  const existing = document.getElementById('music-toast');
+  if (existing) return;
+  const toast = document.createElement('div');
+  toast.id = 'music-toast';
+  toast.setAttribute('role', 'status');
+  toast.innerHTML = '♪ Toca para activar la música';
+  document.body.appendChild(toast);
+  setTimeout(() => toast.classList.add('music-toast--visible'), 50);
+  setTimeout(() => {
+    toast.classList.remove('music-toast--visible');
+    setTimeout(() => toast.remove(), 400);
+  }, 4000);
 }
 
 function fadeVolume(audioEl, from, to, durationMs, onDone) {
@@ -466,6 +494,13 @@ function initScrollHint() {
   let particles = [];
   let mouseX = -999, mouseY = -999;
   let lastSpawn = 0;
+  let paused = false;
+
+  /* Pausa el loop cuando la pestaña está en background — ahorra batería */
+  document.addEventListener('visibilitychange', () => {
+    paused = document.hidden;
+    if (!paused) requestAnimationFrame(loop);
+  });
 
   function resize() {
     canvas.width  = window.innerWidth;
@@ -488,6 +523,7 @@ function initScrollHint() {
   }
 
   function loop(ts) {
+    if (paused) return;
     requestAnimationFrame(loop);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -514,7 +550,6 @@ function initScrollHint() {
       ctx.shadowColor = `hsl(${p.hue}, 100%, 80%)`;
       ctx.shadowBlur  = 8;
 
-      // 4-pointed star shape
       ctx.beginPath();
       const s = p.size * p.life;
       ctx.moveTo(p.x, p.y - s);
@@ -533,7 +568,6 @@ function initScrollHint() {
     mouseY = e.clientY;
   }, { passive: true });
 
-  // Touch support
   window.addEventListener('touchmove', (e) => {
     const t = e.touches[0];
     mouseX = t.clientX;
@@ -567,6 +601,12 @@ function splitWords(el) {
 function initGSAP() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
+
+  /* Respeta prefers-reduced-motion — acorta todas las duraciones a 0 */
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.globalTimeline.timeScale(100);
+    ScrollTrigger.config({ limitCallbacks: true });
+  }
 
   /* --- Helper: split text into char spans --- */
   function splitChars(el) {
@@ -665,11 +705,6 @@ function initGSAP() {
       onEnter: () => quoteSecEl && quoteSecEl.classList.add('glow-active'),
     });
   }
-
-  gsap.to('.quote__flower-bottom', {
-    opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.7)',
-    scrollTrigger: { trigger: '#quote', start: 'bottom 80%' },
-  });
 
   /* ---------- 3. DATE ---------- */
   gsap.to('.date__label', {
@@ -840,14 +875,14 @@ function initGSAP() {
     }
   );
 
-  /* Flowers scroll scrub: rotate while scrolling */
+  /* Flowers scroll scrub: solo rotation, sin y (la entrada ya controla y) */
   gsap.to('.family__flower-left', {
-    rotation: 25, y: 6, ease: 'none',
+    rotation: 25, ease: 'none',
     scrollTrigger: { trigger: '#family', start: 'top 70%', end: 'bottom 30%', scrub: true },
   });
 
   gsap.to('.family__flower-right', {
-    rotation: -25, y: 6, ease: 'none',
+    rotation: -25, ease: 'none',
     scrollTrigger: { trigger: '#family', start: 'top 70%', end: 'bottom 30%', scrub: true },
   });
 
@@ -933,8 +968,8 @@ function initGSAP() {
         const del  = parseFloat(piece.style.getPropertyValue('--cf-del'))  || 0;
         const xOff = parseFloat(piece.style.getPropertyValue('--cf-x'))    || 20;
         gsap.fromTo(piece,
-          { opacity: 0, y: -10 },
-          { opacity: 1, y: window.innerHeight, rotation: 720, x: xOff,
+          { opacity: 0, y: 0 },
+          { opacity: 1, y: '100vh', rotation: 720, x: xOff,
             duration: dur, delay: del, repeat: -1, repeatDelay: 1.5, ease: 'none' }
         );
       });
@@ -967,7 +1002,7 @@ function initGSAP() {
     });
   }
 
-  /* Sparkles en progress bar */
+  /* Sparkles en progress bar — un solo ScrollTrigger, sin tween conflictivo */
   const sparkleContainer = document.querySelector('.scroll-sparkles');
   if (sparkleContainer) {
     const sparkles = [];
@@ -977,20 +1012,17 @@ function initGSAP() {
       sparkleContainer.appendChild(sp);
       sparkles.push(sp);
     }
-    sparkles.forEach((sp, i) => {
-      gsap.to(sp, {
-        left: '100%',
-        opacity: () => 0.9 - i * 0.2,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: 'body', start: 'top top', end: 'bottom bottom',
-          scrub: true,
-          onUpdate: (self) => {
-            const leftPct = self.progress * 100;
-            gsap.set(sp, { left: `${leftPct - i * 1.5}%`, opacity: self.progress > 0 && self.progress < 1 ? 0.9 - i * 0.2 : 0 });
-          },
-        },
-      });
+    ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: (self) => {
+        const pct = self.progress * 100;
+        const visible = pct > 0.5 && pct < 99.5;
+        sparkles.forEach((sp, i) => {
+          sp.style.left    = `${Math.max(0, pct - i * 2)}%`;
+          sp.style.opacity = visible ? String(0.9 - i * 0.18) : '0';
+        });
+      },
     });
   }
 }
