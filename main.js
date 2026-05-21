@@ -1,27 +1,22 @@
 /* =============================================
-   main.js — Leidy & Fabio Wedding Invitation
+   main.js — Fabio & Leidy Wedding Invitation
    ============================================= */
 
-/* ---------- TABLA DE INVITADOS ----------
-   Agregar entradas: 'CODIGO': { name: 'Nombre', seats: N }
-   Usar: https://tu-dominio.com/?code=CODIGO
+/* ---------- INVITADOS ----------
+   La lista vive en guests.js (cargado antes de main.js)
+   GUEST_LIST[codigo] = { family: '...', guests: ['Nombre 1', ...] }
    ---------------------------------------- */
-const GUEST_LIST = {
-  'FAM01': { name: 'Familia García',    seats: 4 },
-  'FAM02': { name: 'Familia Rodríguez', seats: 3 },
-  'FAM03': { name: 'Familia López',     seats: 5 },
-  'AMG01': { name: 'Camila',            seats: 2 },
-  'AMG02': { name: 'Sebastián',         seats: 1 },
-  'AMG03': { name: 'Valentina',         seats: 2 },
-  'AMG04': { name: 'Carlos y Mónica',   seats: 2 },
-  'AMG05': { name: 'Laura',             seats: 1 },
-};
-
 function resolveGuest() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
   if (!code) return null;
-  return GUEST_LIST[code.toUpperCase()] || null;
+  const entry = (typeof GUEST_LIST !== 'undefined') ? GUEST_LIST[code.toUpperCase()] : null;
+  if (!entry) return null;
+  return {
+    name:   entry.family,
+    guests: entry.guests || [],
+    seats:  (entry.guests || []).length,
+  };
 }
 
 function guestSeatsMessage(seats) {
@@ -99,9 +94,18 @@ function applyGuest() {
   const openBtn   = document.getElementById('guest-open-btn');
   if (!welcome || !nameEl || !messageEl) return;
 
-  nameEl.textContent        = guest.name;
-  messageEl.innerHTML       = guestSeatsMessage(guest.seats);
-  welcome.hidden            = false;
+  nameEl.textContent  = guest.name;
+  messageEl.innerHTML = guestSeatsMessage(guest.seats);
+
+  /* Poblar lista de invitados individuales */
+  const listEl = document.getElementById('guest-list');
+  if (listEl && guest.guests.length) {
+    listEl.innerHTML = guest.guests
+      .map(n => `<li>${n}</li>`)
+      .join('');
+  }
+
+  welcome.hidden = false;
   document.body.style.overflow = 'hidden';
 
   createWelcomeFireflies();
@@ -584,17 +588,21 @@ function initScrollHint() {
 /* ---------- HELPER: split text into word spans ---------- */
 function splitWords(el) {
   if (!el) return [];
-  const text = el.textContent;
-  el.setAttribute('aria-label', text);
-  const words = text.split(/(\s+)/);
+  const text = el.textContent.trim();
+  if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', text);
+  const words = text.split(/\s+/);
   el.innerHTML = '';
-  return words.map(word => {
+  const spans = [];
+  words.forEach((word, i) => {
     const span = document.createElement('span');
-    span.innerHTML = word === ' ' ? '&nbsp;' : word.replace(/&/g, '&amp;');
-    span.style.display = 'inline';
+    span.textContent = word;
+    span.style.display = 'inline-block';
     el.appendChild(span);
-    return span;
+    /* Espacio real entre palabras — texto normal, no span */
+    if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+    spans.push(span);
   });
+  return spans;
 }
 
 /* ---------- GSAP ANIMATIONS ---------- */
@@ -615,12 +623,17 @@ function initGSAP() {
     if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', text);
     el.innerHTML = '';
     return [...text].map(ch => {
+      if (ch === ' ') {
+        /* Espacio real como nodo de texto — no colapsa */
+        el.appendChild(document.createTextNode(' '));
+        return null;
+      }
       const span = document.createElement('span');
-      span.textContent = ch === ' ' ? ' ' : ch;
+      span.textContent = ch;
       span.style.display = 'inline-block';
       el.appendChild(span);
       return span;
-    });
+    }).filter(Boolean);
   }
 
   /* ---------- 1. HERO entrance (no scroll trigger — fires on load) ---------- */
@@ -707,9 +720,14 @@ function initGSAP() {
   }
 
   /* ---------- 3. DATE ---------- */
+  gsap.set('.date__countdown-label', { opacity: 0 });
   gsap.to('.date__label', {
     opacity: 1, duration: 0.7,
     scrollTrigger: { trigger: '#date', start: 'top 75%' },
+  });
+  gsap.to('.date__countdown-label', {
+    opacity: 0.65, duration: 0.6,
+    scrollTrigger: { trigger: '#date', start: 'top 45%' },
   });
 
   /* Número "2" con efecto visual de construcción */
