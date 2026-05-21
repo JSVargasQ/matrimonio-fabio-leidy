@@ -8,19 +8,27 @@ const IS_LOW_END     = navigator.hardwareConcurrency != null && navigator.hardwa
 const REDUCE_FX      = IS_MOBILE || IS_LOW_END;
 
 /* ---------- INVITADOS ----------
-   La lista vive en guests.js (cargado antes de main.js)
-   GUEST_LIST[codigo] = { family: '...', guests: ['Nombre 1', ...] }
+   La lista vive en guests.js — claves SHA-256, valores base64.
+   El código del URL nunca se compara en texto plano.
    ---------------------------------------- */
-function resolveGuest() {
+async function resolveGuest() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
-  if (!code) return null;
-  const entry = (typeof GUEST_LIST !== 'undefined') ? GUEST_LIST[code.toUpperCase()] : null;
-  if (!entry) return null;
+  if (!code || typeof GUEST_LIST === 'undefined') return null;
+
+  /* Hash SHA-256 del código → primeros 32 hex chars */
+  const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(code.toUpperCase()));
+  const hash = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
+
+  const raw = GUEST_LIST[hash];
+  if (!raw) return null;
+
+  /* Decodificar base64 → objeto */
+  const entry = JSON.parse(atob(raw));
   return {
     name:   entry.family,
     guests: entry.guests || [],
-    seats:  entry.seats || (entry.guests || []).length,
+    seats:  entry.seats  || (entry.guests || []).length,
   };
 }
 
@@ -85,9 +93,9 @@ function showGate() {
   }
 }
 
-function applyGuest() {
+async function applyGuest() {
   const code  = new URLSearchParams(window.location.search).get('code');
-  const guest = resolveGuest();
+  const guest = await resolveGuest();
 
   if (!code || !guest) {
     showGate();
@@ -275,26 +283,30 @@ function startCountdown() {
   const daysEl  = document.getElementById('cd-days');
   const hoursEl = document.getElementById('cd-hours');
   const minsEl  = document.getElementById('cd-mins');
+  const secsEl  = document.getElementById('cd-secs');
   if (!daysEl) return;
 
   function tick() {
     const diff = weddingDate - Date.now();
     if (diff <= 0) {
-      daysEl.textContent = '0';
+      daysEl.textContent  = '0';
       hoursEl.textContent = '00';
       minsEl.textContent  = '00';
+      if (secsEl) secsEl.textContent = '00';
       return;
     }
     const d = Math.floor(diff / 86400000);
     const h = Math.floor((diff % 86400000) / 3600000);
     const m = Math.floor((diff % 3600000)  / 60000);
+    const s = Math.floor((diff % 60000)    / 1000);
     daysEl.textContent  = d;
     hoursEl.textContent = String(h).padStart(2, '0');
     minsEl.textContent  = String(m).padStart(2, '0');
+    if (secsEl) secsEl.textContent = String(s).padStart(2, '0');
   }
 
   tick();
-  setInterval(tick, 60000);
+  setInterval(tick, 1000);
 }
 
 /* ---------- STARS BACKGROUND ---------- */

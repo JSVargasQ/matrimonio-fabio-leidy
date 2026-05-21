@@ -1,252 +1,43 @@
-/*
- * guests.js — Lista oficial de invitados
- * Fabio & Leidy · 2 Noviembre 2026
- *
- * Códigos generados automáticamente · 8 caracteres aleatorios
- * Cada código representa una familia o grupo de invitados.
- * URL de ejemplo: https://tu-dominio.com/?code=XXXXXXXX
- */
-
+/* guests.js — datos cifrados, no modificar manualmente */
 const GUEST_LIST = {
-
-  '6CRKY934': {
-    family: 'Sebastian Vargas',
-    seats:  2,
-    guests: ['Sebastián Vargas'],
-  },
-
-  'EWA9XVWZ': {
-    family: 'Familia Vargas Quintero',
-    seats:  2,
-    guests: ['Hernando Vargas', 'Nubia Quintero'],
-  },
-
-  '3NSXHUJ8': {
-    family: 'Julio Enrique Mora Gaitán',
-    seats:  2,
-    guests: ['Julio Mora'],
-  },
-
-  'GUGPKTSU': {
-    family: 'Familia Pinto Perez',
-    seats:  2,
-    guests: ['Nicolás Pinto', 'Sandra Perez'],
-  },
-
-  'WVSR4AN4': {
-    family: 'Familia Romero Zambrano',
-    seats:  3,
-    guests: ['Rodrigo Romero', 'Marina Zambrano'],
-  },
-
-  'EJRFYP8G': {
-    family: 'Familia Zambrano Sanabria',
-    seats:  2,
-    guests: ['Jhon Zambrano', 'Angelo Zambrano'],
-  },
-
-  'PC6KH22T': {
-    family: 'Familia Zambrano',
-    seats:  3,
-    guests: ['Miguel', 'Valeria Zambrano'],
-  },
-
-  '8GEABRMF': {
-    family: 'Familia Rojas Osorio',
-    seats:  2,
-    guests: ['Nelly Osorio', 'Nicol Rojas'],
-  },
-
-  'ZQ5CK6FQ': {
-    family: 'Juan José Rojas',
-    seats:  1,
-    guests: ['Juan José Rojas'],
-  },
-
-  '2Q377V73': {
-    family: 'Ivan Rojas',
-    seats:  1,
-    guests: ['Ivan Rojas'],
-  },
-
-  'H7RK52M2': {
-    family: 'Elvira Vargas',
-    seats:  1,
-    guests: ['Elvira Vargas'],
-  },
-
-  'ZC4JU8JV': {
-    family: 'Familia Martinez Osorio',
-    seats:  4,
-    guests: ['Felix Martinez', 'Amparo Osorio'],
-  },
-
-  'UBBVPMGS': {
-    family: 'Familia Osorio Gallo',
-    seats:  3,
-    guests: ['Juan Edgar Osorio', 'Solangel Gallo'],
-  },
-
-  '8DCWB52X': {
-    family: 'Familia Guaneme Ramirez',
-    seats:  3,
-    guests: ['Santiago Guaneme', 'Francy Ramirez'],
-  },
-
-  'RZEMANZT': {
-    family: 'Familia Copete Villanueva',
-    seats:  4,
-    guests: ['Miguel Copete', 'Marcela Villanueva'],
-  },
-
-  'JF5NX65F': {
-    family: 'Familia Rave Rojas',
-    seats:  4,
-    guests: ['Danni Rave', 'Bibiana Rojas'],
-  },
-
-  'WDMEGC7Q': {
-    family: 'Familia Marco',
-    seats:  4,
-    guests: ['Marco', 'July'],
-  },
-
-  'B9CDKXFM': {
-    family: 'Familia Díaz Oidor',
-    seats:  3,
-    guests: ['Jaime Díaz', 'Natalia Oidor'],
-  },
-
-  'S9XPXF8H': {
-    family: 'Familia Leal',
-    seats:  2,
-    guests: ['Jeison', 'Laura'],
-  },
-
-  '4SFEYMFU': {
-    family: 'Ernesto Quintero',
-    seats:  1,
-    guests: ['Ernesto Quintero'],
-  },
-
-  '6WS9UMNB': {
-    family: 'Familia Bareño Bonilla',
-    seats:  3,
-    guests: ['Oscar Bareño', 'Alejandra Bonilla'],
-  },
-
-  '568FKZQF': {
-    family: 'Gloria Hernández',
-    seats:  1,
-    guests: ['Gloria Hernández'],
-  },
-
-  'PHHKGSWU': {
-    family: 'Amanda Quintana',
-    seats:  1,
-    guests: ['Amanda Quintana'],
-  },
-
-  'CXYZ3KKC': {
-    family: 'Familia Orjuela Lopez',
-    seats:  4,
-    guests: ['William Orjuela', 'Camila López'],
-  },
-
-  'H8D3RZUE': {
-    family: 'Laura Lopez',
-    seats:  1,
-    guests: ['Laura Lopez'],
-  },
-
-  '6MACBTTZ': {
-    family: 'Familia Castañeda',
-    seats:  2,
-    guests: ['Luz Stella Castañeda'],
-  },
-
-  'ZDBYS6JF': {
-    family: 'Familia Amaya Quintero',
-    seats:  4,
-    guests: ['Fredy Amaya', 'Leidy Quintero'],
-  },
-
-  '3GVD42QQ': {
-    family: 'Familia Quintero',
-    seats:  2,
-    guests: ['Alvaro', 'Gloria'],
-  },
-
-  'KCMXRDWU': {
-    family: 'Manuel Quintero',
-    seats:  1,
-    guests: ['Manuel Quintero'],
-  },
-
-  'UZ5QUTXJ': {
-    family: 'Familia Soraya',
-    seats:  2,
-    guests: ['Soraya'],
-  },
-
-  '4H2ATFWB': {
-    family: 'Mercedes Carrillo',
-    seats:  1,
-    guests: ['Mercedes Carrillo'],
-  },
-
-  '5F9KMU2B': {
-    family: 'Blanca y Angel',
-    seats:  2,
-    guests: ['Blanca', 'Angel'],
-  },
-
-  'G4BY9DGZ': {
-    family: 'Martha Tabares',
-    seats:  1,
-    guests: ['Martha Tabares'],
-  },
-
-  'AHNXBZJU': {
-    family: 'Familia Poveda',
-    seats:  2,
-    guests: ['Francisco', 'Nancy'],
-  },
-
-  'GU9V67K4': {
-    family: 'Familia Gonzales San Martin',
-    seats:  2,
-    guests: ['Oscar Gonzales', 'Alexandra Sanmartin'],
-  },
-
-  'BXRGHFS3': {
-    family: 'Flor Aponte',
-    seats:  1,
-    guests: ['Flor Aponte'],
-  },
-
-  'X962TTNZ': {
-    family: 'Familia Romero Tellez',
-    seats:  3,
-    guests: ['Diego Romero', 'Yohana Tellez'],
-  },
-
-  'F3XRSZSH': {
-    family: 'Familia Romero Aponte',
-    seats:  2,
-    guests: ['Norma'],
-  },
-
-  '9QYY8U8A': {
-    family: 'Familia Jackeline',
-    seats:  2,
-    guests: ['Jackeline'],
-  },
-
-  'AUKH97J6': {
-    family: 'Alvis',
-    seats:  1,
-    guests: ['Alvis'],
-  },
-
+  'e0636213ca0944322966208ca8925d37': 'eyJmYW1pbHkiOiAiU2ViYXN0aWFuIFZhcmdhcyIsICJzZWF0cyI6IDIsICJndWVzdHMiOiBbIlNlYmFzdGnDoW4gVmFyZ2FzIl19',
+  '8bcf028e85188cb78e1ca6439f39e02e': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBWYXJnYXMgUXVpbnRlcm8iLCAic2VhdHMiOiAyLCAiZ3Vlc3RzIjogWyJIZXJuYW5kbyBWYXJnYXMiLCAiTnViaWEgUXVpbnRlcm8iXX0=',
+  'ad93674cdefd1b7850e40562407b2481': 'eyJmYW1pbHkiOiAiSnVsaW8gRW5yaXF1ZSBNb3JhIEdhaXTDoW4iLCAic2VhdHMiOiAyLCAiZ3Vlc3RzIjogWyJKdWxpbyBNb3JhIl19',
+  '22f85fc695224aa3fc73cc022b0ff6ed': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBQaW50byBQZXJleiIsICJzZWF0cyI6IDIsICJndWVzdHMiOiBbIk5pY29sw6FzIFBpbnRvIiwgIlNhbmRyYSBQZXJleiJdfQ==',
+  'c3d0251e4916f04d714b367cf43bf369': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBSb21lcm8gWmFtYnJhbm8iLCAic2VhdHMiOiAzLCAiZ3Vlc3RzIjogWyJSb2RyaWdvIFJvbWVybyIsICJNYXJpbmEgWmFtYnJhbm8iLCAiUm9nZXIgUm9tZXJvIl19',
+  '71d77039d86cb9d4123cb7a5f113136e': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBaYW1icmFubyBTYW5hYnJpYSIsICJzZWF0cyI6IDIsICJndWVzdHMiOiBbIkpob24gWmFtYnJhbm8iLCAiQW5nZWxvIFphbWJyYW5vIl19',
+  '826f595ea46ecc8bd853a0c71ac58c54': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBaYW1icmFubyIsICJzZWF0cyI6IDMsICJndWVzdHMiOiBbIk1pZ3VlbCBNYXJ0aW5leiIsICJWYWxlcmlhIFphbWJyYW5vIiwgIkNlbGVzdGUgTWFydGluZXoiXX0=',
+  'd473a35a5033c2cca4ea2a2a44894ffb': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBSb2phcyBPc29yaW8iLCAic2VhdHMiOiAyLCAiZ3Vlc3RzIjogWyJOZWxseSBPc29yaW8iLCAiTmljb2wgUm9qYXMiXX0=',
+  '8b48b28ca16841d58a63d1c3c7ba7f3e': 'eyJmYW1pbHkiOiAiSnVhbiBKb3PDqSBSb2phcyIsICJzZWF0cyI6IDEsICJndWVzdHMiOiBbIkp1YW4gSm9zw6kgUm9qYXMiXX0=',
+  '78a6d533a516280996b9d688ff72402b': 'eyJmYW1pbHkiOiAiSXZhbiBSb2phcyIsICJzZWF0cyI6IDEsICJndWVzdHMiOiBbIkl2YW4gUm9qYXMiXX0=',
+  '3a6304a5f167c1d046dcbdf7a045c2ea': 'eyJmYW1pbHkiOiAiRWx2aXJhIFZhcmdhcyIsICJzZWF0cyI6IDEsICJndWVzdHMiOiBbIkVsdmlyYSBWYXJnYXMiXX0=',
+  '62476150f2a36faaf1e9b49ac18a548d': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBNYXJ0aW5leiBPc29yaW8iLCAic2VhdHMiOiA0LCAiZ3Vlc3RzIjogWyJGZWxpeCBNYXJ0aW5leiIsICJBbXBhcm8gT3NvcmlvIiwgIlNhbXVlbCBNYXJ0aW5leiIsICJNYXRpYXMgTWFydGluZXoiXX0=',
+  'd9371c41a54c237e3048c69b43e40a72': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBPc29yaW8gR2FsbG8iLCAic2VhdHMiOiAzLCAiZ3Vlc3RzIjogWyJKdWFuIEVkZ2FyIE9zb3JpbyIsICJTb2xhbmdlbCBHYWxsbyIsICJNYXJpYW5hIE9zb3JpbyJdfQ==',
+  '78e798c812e96a4c8b4577e8cd4522fc': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBHdWFuZW1lIFJhbWlyZXoiLCAic2VhdHMiOiAzLCAiZ3Vlc3RzIjogWyJTYW50aWFnbyBHdWFuZW1lIiwgIkZyYW5jeSBSYW1pcmV6IiwgIlZhbGVyeSBHdWFuZW1lIl19',
+  'fcd02841bb581d2026874e05353b9ee1': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBDb3BldGUgVmlsbGFudWV2YSIsICJzZWF0cyI6IDQsICJndWVzdHMiOiBbIk1pZ3VlbCBDb3BldGUiLCAiTWFyY2VsYSBWaWxsYW51ZXZhIiwgIkp1YW4gU2ViYXN0aWFuIENvcGV0ZSIsICJNYXRpYXMgQ29wZXRlIl19',
+  '099cc18060ec5c0a90effbd0b5c4cfbc': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBSYXZlIFJvamFzIiwgInNlYXRzIjogNCwgImd1ZXN0cyI6IFsiRGFubmkgUmF2ZSIsICJCaWJpYW5hIFJvamFzIiwgIk1hcnRpbiBSYXZlIiwgIkRhbmllbGEgUmF2ZSJdfQ==',
+  '5e25cea9893a26f182b4e91888669e0c': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBkZSBsYSBIb3J0dWEgUm9kcmlndWV6IiwgInNlYXRzIjogNCwgImd1ZXN0cyI6IFsiTWFyY28gRGUgTGEgSG9ydHVhIiwgIkp1bHkgUm9kcmlndWV6IiwgIklhbiBEZSBMYSBIb3J0dWEiLCAiR2FicmllbGEgRGUgTGEgSG9ydHVhIl19',
+  '4e1e293a1d93ebe9db587878bcd9c764': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBEw61heiBPaWRvciIsICJzZWF0cyI6IDMsICJndWVzdHMiOiBbIkphaW1lIETDrWF6IiwgIk5hdGFsaWEgT2lkb3IiLCAiRGhlbWlhbiBEaWF6Il19',
+  'e12d1d3925d905663eb6e5533ec85638': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBMZWFsIiwgInNlYXRzIjogMiwgImd1ZXN0cyI6IFsiTGF1cmEiLCAiSmVpc29uIl19',
+  'e2ea5d2e85bb52434893d3033cc2ca54': 'eyJmYW1pbHkiOiAiRXJuZXN0byBRdWludGVybyIsICJzZWF0cyI6IDEsICJndWVzdHMiOiBbIkVybmVzdG8gUXVpbnRlcm8iXX0=',
+  '71baee97c257d0841793218ac9a1f8b9': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBCYXJlw7FvIEJvbmlsbGEiLCAic2VhdHMiOiAzLCAiZ3Vlc3RzIjogWyJPc2NhciBCYXJlw7FvIiwgIkFsZWphbmRyYSBCb25pbGxhIiwgIk5pY29sIEJhcmXDsW8gQm9uaWxsYSJdfQ==',
+  '0c1b1eb9f490dfecbac70da3f7cb6bae': 'eyJmYW1pbHkiOiAiR2xvcmlhIEhlcm7DoW5kZXoiLCAic2VhdHMiOiAxLCAiZ3Vlc3RzIjogWyJHbG9yaWEgSGVybsOhbmRleiJdfQ==',
+  '67e2e79c34dfa147455f91db33602f21': 'eyJmYW1pbHkiOiAiQW1hbmRhIFF1aW50YW5hIiwgInNlYXRzIjogMSwgImd1ZXN0cyI6IFsiQW1hbmRhIFF1aW50YW5hIl19',
+  '77167ce2058229ad9103e570c47c4647': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBPcmp1ZWxhIExvcGV6IiwgInNlYXRzIjogNCwgImd1ZXN0cyI6IFsiV2lsbGlhbSBPcmp1ZWxhIiwgIkNhbWlsYSBMw7NwZXoiLCAiSm9zdWUgT3JqdWVsYSIsICJFbWlseSBPcmp1ZWxhIl19',
+  '054a70dd29a6dcfec4325521aabd45e4': 'eyJmYW1pbHkiOiAiTGF1cmEgTG9wZXoiLCAic2VhdHMiOiAxLCAiZ3Vlc3RzIjogWyJMYXVyYSBMb3BleiJdfQ==',
+  '82ceccc567f4b9f654980834481e3ae3': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBDYXN0ZWxsYW5vcyIsICJzZWF0cyI6IDIsICJndWVzdHMiOiBbIkx1eiBTdGVsbGEgQ2FzdGVsbGFub3MiLCAiUGF1bGEiXX0=',
+  '444c3a3d2c7cec5584bebd240b320ca9': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBBbWF5YSBRdWludGVybyIsICJzZWF0cyI6IDQsICJndWVzdHMiOiBbIkZyZWR5IEFtYXlhIiwgIkxlaWR5IFF1aW50ZXJvIiwgIlBhdWxhIiwgIk1hdGVpIEFtYXlhIl19',
+  'bdc7955d37fa1948590d9892264c76c1': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBRdWludGVybyIsICJzZWF0cyI6IDIsICJndWVzdHMiOiBbIkFsdmFybyIsICJHbG9yaWEiXX0=',
+  '6b05dcef470827fcbce7d7b5daa1f66d': 'eyJmYW1pbHkiOiAiTWFudWVsIFF1aW50ZXJvIiwgInNlYXRzIjogMSwgImd1ZXN0cyI6IFsiTWFudWVsIFF1aW50ZXJvIl19',
+  '53a552863cf85800bf00a42fa1b0c184': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBHYXJ6b24iLCAic2VhdHMiOiAyLCAiZ3Vlc3RzIjogWyJTb3JheWEiLCAiQWxmcmVkbyBHZXJlbmEiXX0=',
+  'ec0514551c7b2c8de33943b8099ca6ef': 'eyJmYW1pbHkiOiAiTWVyY2VkZXMgQ2FycmlsbG8iLCAic2VhdHMiOiAxLCAiZ3Vlc3RzIjogWyJNZXJjZWRlcyBDYXJyaWxsbyJdfQ==',
+  '2d3c5bb2fa88367b4d86fe6056d0ea2a': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBHYW1ib2EgQ2FycmlsbG8iLCAic2VhdHMiOiAyLCAiZ3Vlc3RzIjogWyJCbGFuY2EgQ2FycmlsbG8iLCAiQW5nZWwgR2FtYm9hIl19',
+  '1b6785ddeaffb76e45eaf3a75cc71e51': 'eyJmYW1pbHkiOiAiTWFydGhhIFRhYmFyZXMiLCAic2VhdHMiOiAxLCAiZ3Vlc3RzIjogWyJNYXJ0aGEgVGFiYXJlcyJdfQ==',
+  '356fc0075449b9c9a9950d9f2f5881e7': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBQb3ZlZGEgUXVpbnRlcm8iLCAic2VhdHMiOiAyLCAiZ3Vlc3RzIjogWyJGcmFuY2lzY28gUG92ZWRhIiwgIk5hbmN5IFF1aW50ZXJvIl19',
+  '9dfd6cc7915df0d135e68272047d05e0': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBHb256YWxlcyBTYW4gTWFydGluIiwgInNlYXRzIjogMiwgImd1ZXN0cyI6IFsiT3NjYXIgR29uemFsZXMiLCAiQWxleGFuZHJhIFNhbm1hcnRpbiJdfQ==',
+  'b64f17613a42830a057d52128fcd5454': 'eyJmYW1pbHkiOiAiRmxvciBBcG9udGUiLCAic2VhdHMiOiAxLCAiZ3Vlc3RzIjogWyJGbG9yIEFwb250ZSJdfQ==',
+  'fc12c4f1f0a9cfd31c03a2acb46a2ff9': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBSb21lcm8gVGVsbGV6IiwgInNlYXRzIjogMywgImd1ZXN0cyI6IFsiRGllZ28gUm9tZXJvIiwgIllvaGFuYSBUZWxsZXoiLCAiSWFuIFJvbWVybyJdfQ==',
+  '4626f4ee4c376f219b073c7030f2db90': 'eyJmYW1pbHkiOiAiRmFtaWxpYSBSb21lcm8gQXBvbnRlIiwgInNlYXRzIjogMiwgImd1ZXN0cyI6IFsiTm9ybWEgUm9tZXJvIiwgIlNvZmlhIFJvbWVybyJdfQ==',
+  '3764db462efd27ac70d30ca6c96dbc5b': 'eyJmYW1pbHkiOiAiRmFtaWxpYSIsICJzZWF0cyI6IDIsICJndWVzdHMiOiBbIkphY2tlbGluZSIsICJFc3Bvc28iXX0=',
+  '35bd60bf918a5f14660bd9c778171a6b': 'eyJmYW1pbHkiOiAiQWx2aXMgQ29yZGVybyIsICJzZWF0cyI6IDEsICJndWVzdHMiOiBbIkFsdmlzIENvcmRlcm8iXX0=',
 };
