@@ -488,8 +488,62 @@
     </div>
   </section>
 
+  <!-- ========================== -->
+  <!-- 9. LLUVIA DE SOBRES      -->
+  <!-- ========================== -->
+  <section id="envelopes" class="section section--envelopes" aria-label="Lluvia de sobres">
+
+    <!-- Partículas de confetti decorativas (generadas por JS) -->
+    <div class="envelopes__particles" aria-hidden="true" id="envelopes-particles"></div>
+
+    <div class="envelopes__content">
+
+      <!-- Ilustración SVG del sobre -->
+      <div class="envelopes__icon" aria-hidden="true">
+        <svg class="envelope-svg" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sobre de regalo">
+          <!-- Sombra suave -->
+          <ellipse cx="48" cy="68" rx="30" ry="4" fill="rgba(232,168,56,0.12)"/>
+          <!-- Cuerpo del sobre -->
+          <rect x="4" y="18" width="88" height="50" rx="6" fill="rgba(255,248,240,0.10)" stroke="#E8A838" stroke-width="1.5"/>
+          <!-- Solapa trasera (triángulo superior) -->
+          <path d="M4 24 L48 46 L92 24" stroke="#E8A838" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+          <!-- Solapa abierta con corazón -->
+          <path d="M4 18 Q4 14 8 12 L48 36 L88 12 Q92 14 92 18 Z" fill="rgba(232,168,56,0.18)" stroke="#E8A838" stroke-width="1.5" stroke-linejoin="round"/>
+          <!-- Corazón en el centro de la solapa -->
+          <path d="M48 28 C48 28 44 23 40 25 C36 27 36 32 40 35 L48 42 L56 35 C60 32 60 27 56 25 C52 23 48 28 48 28 Z" fill="#E84C7D" opacity="0.9"/>
+          <!-- Líneas inferiores del sobre (simulando papel doblado) -->
+          <line x1="4" y1="68" x2="40" y2="50" stroke="#E8A838" stroke-width="1" opacity="0.4"/>
+          <line x1="92" y1="68" x2="56" y2="50" stroke="#E8A838" stroke-width="1" opacity="0.4"/>
+          <!-- Pequeñas estrellas decorativas -->
+          <path d="M16 14 L17 11 L18 14 L21 14 L18.5 16 L19.5 19 L17 17 L14.5 19 L15.5 16 L13 14 Z" fill="#E8A838" opacity="0.7" transform="scale(0.7) translate(5 0)"/>
+          <path d="M78 10 L79 7 L80 10 L83 10 L80.5 12 L81.5 15 L79 13 L76.5 15 L77.5 12 L75 10 Z" fill="#E84C7D" opacity="0.6" transform="scale(0.6) translate(52 4)"/>
+        </svg>
+        <!-- Brillo animado -->
+        <div class="envelopes__icon-glow" aria-hidden="true"></div>
+      </div>
+
+      <!-- Título -->
+      <h2 class="section-title envelopes__title">Lluvia de Sobres</h2>
+      <div class="section-title__ornament" aria-hidden="true">✦</div>
+
+      <!-- Texto principal cálido -->
+      <p class="envelopes__lead">
+        En nuestra cultura, el regalo más bonito<br/>
+        llega envuelto en amor y en un sobre.
+      </p>
+      <p class="envelopes__body">
+        Si deseas acompañar nuestro nuevo camino con este gesto tan especial,
+        con mucha alegría recibiremos tu sobre el día de nuestra boda.
+      </p>
+      <p class="envelopes__body-emphasis">
+        Tu presencia ya es el regalo más grande. 💛
+      </p>
+
+    </div>
+  </section>
+
   <!-- =================== -->
-  <!-- 9. RSVP             -->
+  <!-- 10. RSVP            -->
   <!-- =================== -->
   <section id="rsvp" class="section section--rsvp" aria-label="Confirmar asistencia">
     <div class="rsvp__confetti" aria-hidden="true" id="confetti-container"></div>

@@ -433,6 +433,30 @@ function createStarBurst() {
   window.triggerStarBurst = function(x, y) { burst(x, y); };
 }
 
+/* ---------- ENVELOPE PARTICLES ---------- */
+function createEnvelopeParticles() {
+  const container = document.getElementById('envelopes-particles');
+  if (!container) return;
+  const colors = ['#E8A838', '#E84C7D', '#7B2FBE', '#D4623A', '#FFF8F0'];
+  const count = REDUCE_FX ? 10 : 22;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'envelope-particle';
+    const size = Math.random() * 5 + 3;
+    p.style.cssText = `
+      width:${size}px;
+      height:${size}px;
+      left:${Math.random() * 100}%;
+      background:${colors[Math.floor(Math.random() * colors.length)]};
+      border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
+      --ep-dur:${(Math.random() * 4 + 4).toFixed(1)}s;
+      --ep-del:${(Math.random() * 6).toFixed(1)}s;
+      --ep-x:${((Math.random() - 0.5) * 55).toFixed(0)}px;
+    `;
+    container.appendChild(p);
+  }
+}
+
 /* ---------- CONFETTI (RSVP) ---------- */
 function createConfetti() {
   const container = document.getElementById('confetti-container');
@@ -502,13 +526,15 @@ function initScrollHint() {
 (function fairyDust() {
   const canvas = document.getElementById('fairy-canvas');
   if (!canvas) return;
-  /* Omitir en mobile de gama baja — demasiado costo de GPU */
-  if (REDUCE_FX) { canvas.style.display = 'none'; return; }
+  /* Solo omitir en hardware muy limitado */
+  if (IS_LOW_END) { canvas.style.display = 'none'; return; }
   const ctx    = canvas.getContext('2d');
   let particles = [];
   let mouseX = -999, mouseY = -999;
   let lastSpawn = 0;
   let paused = false;
+  const MAX_PARTICLES  = IS_MOBILE ? 35 : 120;
+  const SPAWN_INTERVAL = IS_MOBILE ? 50 : 30;
 
   /* Pausa el loop cuando la pestaña está en background — ahorra batería */
   document.addEventListener('visibilitychange', () => {
@@ -543,9 +569,9 @@ function initScrollHint() {
     if (particles.length === 0 && mouseX < 0) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (ts - lastSpawn > 30 && mouseX > 0) {
+    if (ts - lastSpawn > SPAWN_INTERVAL && mouseX > 0) {
       spawnParticle(mouseX + (Math.random()-0.5)*8, mouseY + (Math.random()-0.5)*8);
-      if (particles.length < 120) {
+      if (particles.length < MAX_PARTICLES) {
         spawnParticle(mouseX + (Math.random()-0.5)*16, mouseY + (Math.random()-0.5)*16);
       }
       lastSpawn = ts;
@@ -971,7 +997,99 @@ function initGSAP() {
     });
   }
 
-  /* ---------- 9. RSVP ---------- */
+  /* ---------- 9. LLUVIA DE SOBRES ---------- */
+
+  /* Contenedor principal: fade + slide up */
+  gsap.to('.envelopes__content', {
+    opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: '#envelopes', start: 'top 72%' },
+  });
+
+  /* Icono del sobre: entrada con scale + bounce */
+  gsap.to('.envelopes__icon', {
+    opacity: 1, scale: 1, y: 0, duration: 0.9, ease: 'back.out(1.6)',
+    scrollTrigger: { trigger: '#envelopes', start: 'top 70%' },
+  });
+
+  /* Flotación suave del sobre una vez que entra */
+  ScrollTrigger.create({
+    trigger: '#envelopes',
+    start: 'top 70%',
+    onEnter: () => {
+      gsap.to('.envelope-svg', {
+        y: -6, yoyo: true, repeat: -1, duration: 2.8, ease: 'sine.inOut', delay: 0.9,
+      });
+    },
+  });
+
+  /* Título: reveal char by char */
+  const envTitleEl = document.querySelector('.envelopes__title');
+  if (envTitleEl) {
+    gsap.set(envTitleEl, { opacity: 1 });
+    const envChars = splitChars(envTitleEl);
+    gsap.from(envChars, {
+      opacity: 0, y: 12, stagger: 0.038, duration: 0.45, ease: 'power2.out',
+      scrollTrigger: { trigger: '#envelopes', start: 'top 65%' },
+    });
+  }
+
+  /* Texto lead: palabras en cascada */
+  const envLeadEl = document.querySelector('.envelopes__lead');
+  if (envLeadEl) {
+    gsap.set(envLeadEl, { opacity: 1 });
+    const envLeadWords = splitWords(envLeadEl);
+    gsap.from(envLeadWords, {
+      opacity: 0, y: 14, stagger: 0.06, duration: 0.4, ease: 'power2.out',
+      scrollTrigger: { trigger: '#envelopes', start: 'top 62%' },
+    });
+  }
+
+  /* Texto cuerpo: fade in simple */
+  gsap.fromTo('.envelopes__body',
+    { opacity: 0, y: 16 },
+    {
+      opacity: 0.75, y: 0, duration: 0.7, ease: 'power2.out',
+      scrollTrigger: { trigger: '#envelopes', start: 'top 58%' },
+    }
+  );
+
+  /* Card bancaria: entrada con luz y slide */
+  gsap.to('#envelopes-card', {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+    scrollTrigger: { trigger: '#envelopes', start: 'top 50%' },
+  });
+
+  /* Filas de la card: stagger sutil */
+  gsap.fromTo('.envelopes__bank-row',
+    { opacity: 0, x: -12 },
+    {
+      opacity: 1, x: 0,
+      duration: 0.4, stagger: 0.1, ease: 'power2.out',
+      scrollTrigger: { trigger: '#envelopes', start: 'top 46%' },
+    }
+  );
+
+  /* Partículas: inicio al entrar en viewport */
+  const envObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      gsap.utils.toArray('.envelope-particle').forEach(piece => {
+        const dur  = parseFloat(piece.style.getPropertyValue('--ep-dur'))  || 5;
+        const del  = parseFloat(piece.style.getPropertyValue('--ep-del'))  || 0;
+        const xOff = parseFloat(piece.style.getPropertyValue('--ep-x'))    || 20;
+        gsap.fromTo(piece,
+          { opacity: 0, y: 0 },
+          { opacity: 0.65, y: '100vh', rotation: 540, x: xOff,
+            duration: dur, delay: del, repeat: -1, repeatDelay: 2, ease: 'none' }
+        );
+      });
+      envObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.15 });
+  const envSection = document.getElementById('envelopes');
+  if (envSection) envObserver.observe(envSection);
+
+  /* ---------- 10. RSVP ---------- */
 
   /* Castle reveal: clip-path circular */
   let castleFloating = false;
@@ -1066,6 +1184,7 @@ document.addEventListener('DOMContentLoaded', () => {
   createFireflies();
   createPetals();
   createConfetti();
+  createEnvelopeParticles();
   createStarBurst();
   initScrollHint();
   initMusicPlayer();
