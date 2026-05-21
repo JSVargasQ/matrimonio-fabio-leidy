@@ -1308,6 +1308,42 @@ a {
   font-style: italic;
 }
 
+.dresscode__group-message {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1rem, 3.8vw, 1.2rem);
+  color: var(--cream);
+  text-align: center;
+  line-height: 1.5;
+  opacity: 0.92;
+}
+
+.dresscode__pinterest-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: 100px;
+  border: 1.5px solid rgba(232, 168, 56, 0.5);
+  background: rgba(255, 248, 240, 0.06);
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 3vw, 0.95rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dresscode__pinterest-btn:hover,
+.dresscode__pinterest-btn:active {
+  background: rgba(232, 168, 56, 0.12);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
 .dresscode__swatches {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

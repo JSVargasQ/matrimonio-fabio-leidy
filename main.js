@@ -20,13 +20,12 @@ function resolveGuest() {
   return {
     name:   entry.family,
     guests: entry.guests || [],
-    seats:  (entry.guests || []).length,
+    seats:  entry.seats || (entry.guests || []).length,
   };
 }
 
 function guestSeatsMessage(seats) {
-  if (seats === 1) return 'Te esperamos solo a ti 💛';
-  if (seats === 2) return 'Te esperamos a ti y a tu acompañante 💛';
+  if (seats === 1) return 'Te esperamos 💛';
   return `Te esperamos a ti y tu familia · <strong>${seats} personas</strong> 💛`;
 }
 
@@ -106,10 +105,14 @@ function applyGuest() {
 
   /* Poblar lista de invitados individuales */
   const listEl = document.getElementById('guest-list');
-  if (listEl && guest.guests.length) {
-    listEl.innerHTML = guest.guests
-      .map(n => `<li>${n}</li>`)
-      .join('');
+  if (listEl) {
+    const allGuests = [...guest.guests];
+    /* Completar puestos sin nombre (hijos, acompañantes sin identificar) */
+    const unnamed = guest.seats - allGuests.length;
+    for (let i = 0; i < unnamed; i++) {
+      allGuests.push('Acompañante');
+    }
+    listEl.innerHTML = allGuests.map(n => `<li>${n}</li>`).join('');
   }
 
   welcome.hidden = false;

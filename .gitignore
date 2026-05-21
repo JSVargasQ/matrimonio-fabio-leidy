@@ -1,0 +1,14 @@
+# ── Datos sensibles de invitados ──────────────────────────────
+guests.js
+INVITADOS-PRIVADO.md
+data-guests/
+
+# ── Sistema operativo ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Editores ───────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
