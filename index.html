@@ -7,6 +7,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="preload" as="image" href="img/WhatsApp Image 2026-05-16 at 22.58.03.jpeg" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
@@ -66,21 +68,13 @@
       </div>
 
       <h2 class="guest-gate__couple">Fabio &amp; Leidy</h2>
-      <p class="guest-gate__date">2 · Noviembre · 2026</p>
 
       <div class="guest-gate__separator" aria-hidden="true">✦</div>
 
       <p class="guest-gate__message">
-        Recuerda acceder por medio<br />del enlace enviado
+        Esta invitación es personal.<br />
+        Accede por medio del enlace<br />que te fue enviado.
       </p>
-
-      <div class="guest-gate__test">
-        <a class="guest-gate__test-btn" id="gate-test-btn" href="?code=FAM01">
-          Click aquí
-        </a>
-        <p class="guest-gate__test-note">⚠️ Botón temporal · solo para pruebas</p>
-        <p class="guest-gate__test-note">Los quiero mucho :p</p>
-      </div>
     </div>
   </div>
 
@@ -139,7 +133,9 @@
         src="img/WhatsApp Image 2026-05-16 at 22.58.03.jpeg"
         alt="Fabio y Leidy"
         class="hero__img"
+        width="896" height="1198"
         fetchpriority="high"
+        decoding="sync"
       />
       <div class="hero__overlay"></div>
     </div>
@@ -274,7 +270,9 @@
         src="img/WhatsApp Image 2026-05-16 at 22.58.03.jpeg"
         alt=""
         class="venue__img"
+        width="896" height="1198"
         loading="lazy"
+        decoding="async"
       />
       <div class="venue__overlay"></div>
     </div>
@@ -295,7 +293,7 @@
           Desvio Vía La Porquera
         </p>
         <p class="venue__parking">
-          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="currentColor" style="vertical-align:middle;opacity:0.7"><path d="M13 3H6v18h4v-6h3a5 5 0 0 0 0-10zm0 6h-3V7h3a1 1 0 0 1 0 2z"/></svg>
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="currentColor"><path d="M13 3H6v18h4v-6h3a5 5 0 0 0 0-10zm0 6h-3V7h3a1 1 0 0 1 0 2z"/></svg>
           Parqueadero disponible en el lugar
         </p>
       </div>
@@ -445,16 +443,19 @@
     </div>
 
     <div class="family__content">
-      <h2 class="section-title">Con amor, nuestra familia</h2>
+      <p class="family__phrase">Primero nos eligieron a nosotros,<br>ahora se eligen para siempre.</p>
       <div class="family__img-wrap">
         <img
           src="img/WhatsApp Image 2026-05-16 at 22.58.03 (2).jpeg"
           alt="Fabio, Leidy y su familia"
           class="family__img"
+          width="896" height="1197"
           loading="lazy"
+          decoding="async"
         />
         <div class="family__img-frame" aria-hidden="true"></div>
       </div>
+      <p class="family__caption">¡Se casan los que nos mandan a dormir temprano!</p>
     </div>
 
     <div class="family__flower-right" aria-hidden="true">
@@ -477,7 +478,9 @@
           src="img/WhatsApp Image 2026-05-16 at 22.58.03 (1).jpeg"
           alt="Las manos de Fabio y Leidy con el anillo de compromiso"
           class="ring__img"
+          width="768" height="1365"
           loading="lazy"
+          decoding="async"
         />
         <div class="ring__petals" aria-hidden="true" id="ring-petals"></div>
       </div>
@@ -516,7 +519,7 @@
       </div>
 
       <h2 class="section-title section-title--light">¡Confirma tu asistencia!</h2>
-      <p class="rsvp__deadline">Antes del <strong>12 de junio · 2026</strong></p>
+      <p class="rsvp__deadline">Antes del <strong>30 de junio · 2026</strong></p>
 
       <a
         href="https://wa.me/573152531231?text=Hola!%20Confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Fabio%20%26%20Leidy%20%F0%9F%8E%89"
@@ -532,7 +535,6 @@
       </a>
 
       <p class="rsvp__number">+57 315 253 1231</p>
-      <p class="rsvp__dietary">Si tienes alguna restricción alimentaria o alergia,<br />menciónala al confirmar tu asistencia.</p>
     </div>
 
     <footer class="rsvp__footer">

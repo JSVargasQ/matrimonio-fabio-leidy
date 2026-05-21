@@ -2,6 +2,11 @@
    main.js — Fabio & Leidy Wedding Invitation
    ============================================= */
 
+/* ---------- CAPACIDAD DEL DEVICE ---------- */
+const IS_MOBILE      = window.matchMedia('(max-width: 640px)').matches;
+const IS_LOW_END     = navigator.hardwareConcurrency != null && navigator.hardwareConcurrency <= 4;
+const REDUCE_FX      = IS_MOBILE || IS_LOW_END;
+
 /* ---------- INVITADOS ----------
    La lista vive en guests.js (cargado antes de main.js)
    GUEST_LIST[codigo] = { family: '...', guests: ['Nombre 1', ...] }
@@ -29,7 +34,8 @@ function createWelcomeFireflies() {
   const container = document.getElementById('welcome-fireflies');
   if (!container) return;
   const colors = ['#E8A838', '#E84C7D', '#7B2FBE'];
-  for (let i = 0; i < 14; i++) {
+  const ffCount = REDUCE_FX ? 6 : 14;
+  for (let i = 0; i < ffCount; i++) {
     const ff = document.createElement('div');
     ff.className = 'firefly';
     const color = colors[Math.floor(Math.random() * colors.length)];
@@ -61,7 +67,8 @@ function showGate() {
   const container = document.getElementById('gate-fireflies');
   if (container) {
     const colors = ['', 'firefly--pink', 'firefly--purple'];
-    for (let i = 0; i < 12; i++) {
+    const gateCount = REDUCE_FX ? 5 : 12;
+    for (let i = 0; i < gateCount; i++) {
       const ff = document.createElement('div');
       ff.className = 'firefly';
       const c = colors[Math.floor(Math.random() * colors.length)];
@@ -291,7 +298,7 @@ function startCountdown() {
 function createStars() {
   const container = document.getElementById('stars-bg');
   if (!container) return;
-  const count = 70;
+  const count = REDUCE_FX ? 35 : 70;
   const colorClasses = ['', '', '', '', 'star--pink', 'star--purple', 'star--gold'];
   for (let i = 0; i < count; i++) {
     const star = document.createElement('div');
@@ -315,7 +322,7 @@ function createStars() {
 function createFireflies() {
   const container = document.getElementById('fireflies');
   if (!container) return;
-  const count = 22;
+  const count = REDUCE_FX ? 10 : 22;
   const colorClasses = ['', '', '', 'firefly--pink', 'firefly--purple'];
   for (let i = 0; i < count; i++) {
     const ff = document.createElement('div');
@@ -431,7 +438,7 @@ function createConfetti() {
   const container = document.getElementById('confetti-container');
   if (!container) return;
   const colors = ['#E8A838', '#E84C7D', '#7B2FBE', '#2D6A4F', '#FFF8F0', '#D4623A'];
-  const count  = 28;
+  const count  = REDUCE_FX ? 14 : 28;
   for (let i = 0; i < count; i++) {
     const c = document.createElement('div');
     c.className = 'confetti-piece';
@@ -455,7 +462,8 @@ function createFamilyFireflies() {
   const wrapper = document.querySelector('.family__img-wrap');
   if (!wrapper) return;
   const colors = ['#E8A838', '#E84C7D', '#D4623A'];
-  for (let i = 0; i < 7; i++) {
+  const famFfCount = REDUCE_FX ? 3 : 7;
+  for (let i = 0; i < famFfCount; i++) {
     const ff = document.createElement('div');
     ff.className = 'family__firefly';
     const size = Math.random() * 4 + 2;
@@ -494,6 +502,8 @@ function initScrollHint() {
 (function fairyDust() {
   const canvas = document.getElementById('fairy-canvas');
   if (!canvas) return;
+  /* Omitir en mobile de gama baja — demasiado costo de GPU */
+  if (REDUCE_FX) { canvas.style.display = 'none'; return; }
   const ctx    = canvas.getContext('2d');
   let particles = [];
   let mouseX = -999, mouseY = -999;
@@ -529,6 +539,8 @@ function initScrollHint() {
   function loop(ts) {
     if (paused) return;
     requestAnimationFrame(loop);
+    /* Saltar frame si no hay partículas ni cursor activo — ahorra GPU */
+    if (particles.length === 0 && mouseX < 0) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (ts - lastSpawn > 30 && mouseX > 0) {
@@ -687,10 +699,10 @@ function initGSAP() {
   });
 
   const quoteMainEl = document.getElementById('quote-main');
-  const quoteMainChars = splitChars(quoteMainEl);
-  if (quoteMainChars.length) {
-    gsap.from(quoteMainChars, {
-      opacity: 0, y: 20, stagger: 0.025, ease: 'power2.out',
+  const quoteMainWords = splitWords(quoteMainEl);
+  if (quoteMainWords.length) {
+    gsap.from(quoteMainWords, {
+      opacity: 0, y: 20, stagger: 0.07, ease: 'power2.out',
       scrollTrigger: { trigger: '#quote', start: 'top 70%' },
     });
     gsap.to(quoteMainEl, { opacity: 1, y: 0, duration: 0.01 });
@@ -844,20 +856,31 @@ function initGSAP() {
     });
   }
 
-  /* Address reveal word by word */
+  /* Address fade-in — preserva <br> y <strong> del HTML */
   const venueAddrEl = document.querySelector('.venue__address');
   if (venueAddrEl) {
-    gsap.set(venueAddrEl, { opacity: 1 });
-    const words = splitWords(venueAddrEl);
-    gsap.from(words, {
-      opacity: 0, y: 8, stagger: 0.06, duration: 0.35, ease: 'power2.out',
+    gsap.to(venueAddrEl, {
+      opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
       scrollTrigger: { trigger: '#venue', start: 'top 60%' },
     });
   }
 
+  /* Venue name reveal */
+  const venueNameEl = document.querySelector('.venue__name');
+  if (venueNameEl) gsap.from(venueNameEl, {
+    opacity: 0, y: 8, duration: 0.6, ease: 'power2.out',
+    scrollTrigger: { trigger: '#venue', start: 'top 63%' },
+  });
+
+  /* Parking note */
+  gsap.to('.venue__parking', {
+    opacity: 0.75, y: 0, duration: 0.5, ease: 'power2.out',
+    scrollTrigger: { trigger: '#venue', start: 'top 55%' },
+  });
+
   gsap.to('#venue .btn', {
     opacity: 1, y: 0, duration: 0.6,
-    scrollTrigger: { trigger: '#venue', start: 'top 55%' },
+    scrollTrigger: { trigger: '#venue', start: 'top 50%' },
   });
 
   gsap.to('.venue__img', {
@@ -868,13 +891,13 @@ function initGSAP() {
   /* ---------- 6. FAMILY ---------- */
   createFamilyFireflies();
 
-  /* Title char reveal */
-  const familyTitleEl = document.querySelector('#family .section-title');
+  /* Title word reveal */
+  const familyTitleEl = document.querySelector('.family__phrase');
   if (familyTitleEl) {
     gsap.set(familyTitleEl, { opacity: 1 });
-    const fChars = splitChars(familyTitleEl);
-    gsap.from(fChars, {
-      opacity: 0, y: 12, stagger: 0.04, duration: 0.4, ease: 'power2.out',
+    const fWords = splitWords(familyTitleEl);
+    gsap.from(fWords, {
+      opacity: 0, y: 12, stagger: 0.1, duration: 0.4, ease: 'power2.out',
       scrollTrigger: { trigger: '#family', start: 'top 72%' },
     });
   }
@@ -916,23 +939,13 @@ function initGSAP() {
   });
 
   gsap.fromTo('.swatch',
-    { opacity: 0, scale: 0.6, rotateY: -20 },
+    { opacity: 0, y: 18 },
     {
-      opacity: 1, scale: 1, rotateY: 0,
-      duration: 0.5, stagger: 0.12, ease: 'back.out(1.7)',
+      opacity: 1, y: 0,
+      duration: 0.45, stagger: 0.08, ease: 'power2.out',
       scrollTrigger: { trigger: '#dresscode', start: 'top 65%' },
     }
   );
-
-  /* Swatches orbital scrub */
-  gsap.utils.toArray('.swatch').forEach((swatch, i) => {
-    gsap.to(swatch, {
-      rotation: i % 2 === 0 ? 12 : -12,
-      y: i % 2 === 0 ? -5 : 5,
-      ease: 'none',
-      scrollTrigger: { trigger: '#dresscode', start: 'top 50%', end: 'bottom 30%', scrub: 1.5 },
-    });
-  });
 
   /* ---------- 8. RING ---------- */
   gsap.to('.ring__content', {
