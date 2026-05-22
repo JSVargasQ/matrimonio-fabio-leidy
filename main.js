@@ -23,8 +23,9 @@ async function resolveGuest() {
   const raw = GUEST_LIST[hash];
   if (!raw) return null;
 
-  /* Decodificar base64 → objeto */
-  const entry = JSON.parse(atob(raw));
+  /* Decodificar base64 → UTF-8 → objeto (atob produce Latin-1, TextDecoder corrige tildes) */
+  const bytes = Uint8Array.from(atob(raw), c => c.charCodeAt(0));
+  const entry = JSON.parse(new TextDecoder('utf-8').decode(bytes));
   return {
     name:   entry.family,
     guests: entry.guests || [],
