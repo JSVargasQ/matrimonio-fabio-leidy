@@ -12,7 +12,7 @@ Página web de invitación de boda con temática Disney (estilo Encanto). Una so
 | Fecha       | 2 de noviembre de 2026                                       |
 | Hora        | 11:00 AM                                                     |
 | Lugar       | Via Puente Piedra a Subachoque KM 6.5, Vereda La Cuesta, Desvio Vía La Porquera |
-| RSVP antes  | 12 de junio de 2026                                          |
+| RSVP antes  | 30 de agosto de 2026                                         |
 | WhatsApp    | +57 315 253 1231                                             |
 
 ### Itinerario
